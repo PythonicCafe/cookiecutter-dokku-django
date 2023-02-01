@@ -15,7 +15,7 @@ if [ -z ${WEB_WORKERS+x} ]; then
 fi
 
 HOST_PORT="0.0.0.0:$PORT"
-OPTS="--bind=$HOST_PORT --chdir=/app --log-file - --workers=$WEB_WORKERS"
+OPTS="--bind=$HOST_PORT --chdir=/app --log-file - --access-logfile - --workers=$WEB_WORKERS"
 if [[ "$(echo $USE_ASGI | tr a-z A-Z)" = "TRUE" ]]; then
 	APP_MODULE="project.asgi:application"
 	OPTS="$OPTS --worker-class uvicorn.workers.UvicornWorker"
