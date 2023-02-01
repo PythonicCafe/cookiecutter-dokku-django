@@ -1,0 +1,5 @@
+web: /app/bin/web.sh
+release: /app/bin/release.sh
+{%- if cookiecutter.enable_celery == "y" %}
+worker: /app/bin/worker.sh
+{%- endif %}

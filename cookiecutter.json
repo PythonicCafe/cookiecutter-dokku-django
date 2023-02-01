@@ -1,0 +1,23 @@
+{
+  "project_slug": "myproj",
+  "apt_extra_packages": "",
+  "web_workers": 4,
+  "celery_workers": 1,
+  "max_line_length": 120,
+  "enable_celery": ["y", "n"],
+  "enable_mailhog": ["y", "n"],
+  "enable_redis": ["y", "n"],
+  "enable_sentry": ["y", "n"],
+  "mailhog_image": "mailhog/mailhog",
+  "mailhog_version": "latest",
+  "postgres_image": "postgres",
+  "postgres_version": "14-bullseye",
+  "postgres_shm_size": "2g",
+  "python_image": "python",
+  "python_version": "3.10-slim-bullseye",
+  "redis_image": "redis",
+  "redis_version": "alpine",
+  "author": "Your name",
+  "copyright_year": "2023",
+  "license": ["GPL 3", "LGPL 3", "AGPL 3", "Apache 2.0", "MIT", "BSD", "Closed source"]
+}

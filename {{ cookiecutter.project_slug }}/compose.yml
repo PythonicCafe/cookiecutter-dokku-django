@@ -1,0 +1,71 @@
+version: "3.8"
+
+services:
+  web:
+    env_file: "docker/env/web"
+    build:
+      context: .
+      dockerfile: "Dockerfile"
+      args:
+        - DEV_BUILD=true
+    command: /app/bin/web.sh
+    volumes:
+      - ${PWD}/docker/data/web:/data
+      - ${PWD}:/app
+    ports:
+      - 5000:5000
+    depends_on:
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_started
+
+{%- if cookiecutter.enable_celery == "y" %}
+  worker:
+    env_file: "docker/env/web"
+    build:
+      context: .
+      dockerfile: "Dockerfile"
+      args:
+        - DEV_BUILD=true
+    command: /app/bin/worker.sh
+    volumes:
+      - ${PWD}/docker/data/web:/data
+      - ${PWD}:/app
+    depends_on:
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_started
+
+{%- endif %}
+  db:
+    image: "{{ cookiecutter.postgres_image }}:{{ cookiecutter.postgres_version }}"
+    env_file: "docker/env/db"
+    shm_size: "{{ cookiecutter.postgres_shm_size }}"
+    volumes:
+      - ${PWD}/docker/data/db:/var/lib/postgresql/data
+      - ${PWD}/docker/conf/db/postgresql.dev.conf:/etc/postgresql/postgresql.conf
+    command: -c "config_file=/etc/postgresql/postgresql.conf"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 3s
+      retries: 5
+
+{%- if cookiecutter.enable_mailhog == "y" %}
+  mail:
+    image: "{{ cookiecutter.mailhog_image }}:{{ cookiecutter.mailhog_version }}"
+    env_file: "docker/env/mail"
+    volumes:
+      - ${PWD}/docker/data/mail:/data
+    ports:
+      - "8025:8025"
+
+{%- endif %}
+{%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}
+  cache:
+    image: "{{ cookiecutter.redis_image }}:{{ cookiecutter.redis_version }}"
+    env_file: "docker/env/redis"
+    volumes:
+      - ${PWD}/docker/data/cache:/data
+{%- endif %}

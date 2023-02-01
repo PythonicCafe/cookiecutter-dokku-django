@@ -1,0 +1,22 @@
+ADMINS="App Admin|admin@myapp.example.com"
+ALLOWED_HOSTS="localhost"
+CSRF_TRUSTED_ORIGINS="http://$ALLOWED_HOSTS"
+DATABASE_URL="postgres://postgres:verysecret@db:5432/postgres"
+DATA_DIR="/data"
+DEBUG="True"
+DEBUG_SQL="True"
+DEV_BUILD="True"
+{%- if cookiecutter.enable_mailhog == "y" %}
+DEFAULT_FROM_EMAIL="root@localhost"
+EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST="mail"
+EMAIL_HOST_PASSWORD=""
+EMAIL_HOST_USER=""
+EMAIL_PORT="1025"
+EMAIL_USE_SSL="False"
+EMAIL_USE_TLS="False"
+{%- endif %}
+{%- if cookiecutter.enable_redis == "y" or cookiecutter.enable_redis == "y" %}
+REDIS_URL="redis://cache:6379/0"
+{%- endif %}
+SECRET_KEY="12345qwert67890yuiop12345qwert67890yuiop12345qwert67890yuiop12345qwert67890yuiop"

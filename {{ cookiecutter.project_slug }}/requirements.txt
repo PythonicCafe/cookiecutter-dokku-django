@@ -1,0 +1,15 @@
+{%- if cookiecutter.enable_celery == "y" %}
+celery
+{%- endif %}
+dj_database_url
+Django==4.1
+gunicorn
+psycopg2-binary
+python-decouple
+{%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}
+redis
+{%- endif %}
+{%- if cookiecutter.enable_sentry == "y" %}
+sentry-sdk
+{%- endif %}
+whitenoise
