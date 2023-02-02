@@ -7,7 +7,7 @@
 .vscode/
 data/*
 docker/data
-public/
+collected-static/
 
 
 # Byte-compiled / optimized / DLL files

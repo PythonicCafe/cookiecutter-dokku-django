@@ -27,7 +27,7 @@ git add .
 git commit -m "First commit"
 ```
 
-Then, read the created `<project_slug>/README.md` for local development instructions and `<project_slug/docs/deply.md>`
+Then, read the created `<project_slug>/README.md` for local development instructions and `<project_slug/docs/deploy.md>`
 for deployment instructions.
 
 
@@ -43,6 +43,8 @@ for deployment instructions.
 - [ ] Add option to multistage build when user needs to compile JS
 - [ ] Translate `docs/deploy.md` to other languages (currently only available in Brazilian Portuguese)
 - [ ] Add more info about the docker compose services (paths, for example) on project's README
+- [ ] Add option to configure AWS S3 and/or MinIO (add MinIO service to compose
+  + settings)
 
 
 ## Updating PostgreSQL config file

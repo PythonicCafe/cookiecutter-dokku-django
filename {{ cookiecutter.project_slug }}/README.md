@@ -24,3 +24,15 @@ Creating Django's super user:
 ```shell
 docker compose exec web python manage.py createsuperuser
 ```
+
+Running tests (outside container):
+
+```shell
+make test  # use test-v for verbose version of pytest
+```
+
+Running tests (inside container):
+
+```shell
+pytest
+```

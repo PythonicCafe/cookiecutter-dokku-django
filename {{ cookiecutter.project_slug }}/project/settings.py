@@ -146,7 +146,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "/static/"
-STATIC_ROOT = str(BASE_DIR) + "/static"
+STATIC_ROOT = str(BASE_DIR / "collected-static")
+STATICFILES_DIRS = [str(BASE_DIR / "static")]
+DEFAULT_FILE_STORAGE = config("DEFAULT_FILE_STORAGE", default="django.core.files.storage.FileSystemStorage")
+DATA_DIR = config("DATA_DIR", cast=Path)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

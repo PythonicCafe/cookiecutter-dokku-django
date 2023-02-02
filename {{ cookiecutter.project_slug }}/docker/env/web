@@ -5,7 +5,6 @@ DATABASE_URL="postgres://postgres:verysecret@db:5432/postgres"
 DATA_DIR="/data"
 DEBUG="True"
 DEBUG_SQL="True"
-DEV_BUILD="True"
 {%- if cookiecutter.enable_mailhog == "y" %}
 DEFAULT_FROM_EMAIL="root@localhost"
 EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"

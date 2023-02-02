@@ -5,6 +5,9 @@ lint:
 	flake8 --config setup.cfg
 
 test:
-	pytest -v
+	docker compose exec web pytest
 
-.PHONY: lint test
+test-v:
+	docker compose exec web pytest -vvv
+
+.PHONY: lint test test-v

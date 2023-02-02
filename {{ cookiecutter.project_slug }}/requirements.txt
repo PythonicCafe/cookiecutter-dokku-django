@@ -4,6 +4,7 @@ celery
 dj_database_url
 Django==4.1
 gunicorn
+ipython  # for enhanced Django shell
 psycopg2-binary
 python-decouple
 {%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}
