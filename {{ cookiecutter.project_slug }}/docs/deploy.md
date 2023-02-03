@@ -197,7 +197,7 @@ execute:
 ```shell
 dokku letsencrypt:enable $APP_NAME
 dokku checks:disable $APP_NAME
-dokku ps:scale $APP_NAME web={{ cookiecutter.web_workers }}
+dokku ps:scale $APP_NAME web={{ cookiecutter.dokku_web_workers }}
 {% if cookiecutter.enable_celery == "y" %}
 dokku ps:scale $APP_NAME worker={{ cookiecutter.celery_workers }}
 {% endif %}

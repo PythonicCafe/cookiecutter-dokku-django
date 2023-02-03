@@ -1,7 +1,8 @@
 {
   "project_slug": "myproj",
   "apt_extra_packages": "",
-  "web_workers": 4,
+  "gunicorn_workers": 4,
+  "dokku_web_workers": 1,
   "celery_workers": 1,
   "max_line_length": 120,
   "enable_celery": ["y", "n"],

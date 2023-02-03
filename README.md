@@ -36,6 +36,8 @@ for deployment instructions.
 - [ ] Add a git pre-commit hook to automatically run tests, linter etc.
 - [ ] Run containers as regular user so files created inside container will be acessible by current host user (there
   are a [plenty of hacks in this issue](https://github.com/docker/compose/issues/2380))
+- [ ] Add `django_celery_beat` and `django_celery_results`?
+- [ ] Add plenty of possible email backends (SMTP, Sendgrid, Mailgun, AWS SES etc.)
 - [ ] Configure workflows (CI/CD)
 - [ ] Enhance `.dockerignore`
 - [ ] Pin requirements' versions
