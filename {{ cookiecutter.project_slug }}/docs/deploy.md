@@ -144,7 +144,8 @@ dokku storage:mount $APP_NAME "$STORAGE_PATH:$DATA_DIR"
 # Provisionando serviços de banco de dados
 dokku postgres:create $PG_NAME -i {{ cookiecutter.postgres_image }} -I {{ cookiecutter.postgres_version }} --shm-size {{ cookiecutter.postgres_shm_size }}
 dokku postgres:stop $PG_NAME
-cp docker/conf/db/postgres.prd.conf /var/lib/dokku/services/postgres/$PG_NAME/data/postgresql.conf
+# Cópia de arquivo local para o servidor remoto:
+scp docker/conf/db/postgresql.prd.conf root@<servidor>:/var/lib/dokku/services/postgres/$PG_NAME/data/postgresql.conf
 dokku postgres:start $PG_NAME
 {% if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}
 dokku redis:create $REDIS_NAME -i {{ cookiecutter.redis_image }} -I {{ cookiecutter.redis_version }}
