@@ -47,6 +47,7 @@ for deployment instructions.
 - [ ] Add more info about the docker compose services (paths, for example) on project's README
 - [ ] Add option to configure AWS S3 and/or MinIO (add MinIO service to compose
   + settings)
+- [ ] Check other implementations, like cookiecutter-django and https://github.com/HBNetwork/django-boilerplate
 
 
 ## Updating PostgreSQL config file
