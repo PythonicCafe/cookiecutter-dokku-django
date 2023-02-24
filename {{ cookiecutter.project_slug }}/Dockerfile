@@ -23,11 +23,10 @@ RUN apt update \
   && rm -rf /var/lib/apt/lists/*
 {%- endif %}
 
-RUN pip install --no-cache-dir -U pip
-
 COPY requirements.txt /app/
 COPY requirements-development.txt /app/
-RUN pip install --no-cache-dir -r /app/requirements.txt \
+RUN pip install --no-cache-dir -U pip \
+  && pip install --no-cache-dir -r /app/requirements.txt \
   && if [ "$DEV_BUILD" = "true" ]; then pip install --no-cache-dir -r /app/requirements-development.txt; fi
 
 COPY . /app/
