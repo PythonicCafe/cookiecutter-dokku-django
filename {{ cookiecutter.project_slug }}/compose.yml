@@ -17,8 +17,10 @@ services:
     depends_on:
       db:
         condition: service_healthy
+{%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}
       cache:
         condition: service_started
+{%- endif %}
 
 {%- if cookiecutter.enable_celery == "y" %}
   worker:
