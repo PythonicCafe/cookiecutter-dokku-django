@@ -159,7 +159,6 @@ dokku config:set --no-restart $APP_NAME CSRF_TRUSTED_ORIGINS="$CSRF_TRUSTED_ORIG
 dokku config:set --no-restart $APP_NAME DATA_DIR="$DATA_DIR"
 dokku config:set --no-restart $APP_NAME DEBUG="$DEBUG"
 dokku config:set --no-restart $APP_NAME DEV_BUILD="$DEV_BUILD"
-dokku config:set --no-restart $APP_NAME DOKKU_LETSENCRYPT_EMAIL="$LETSENCRYPT_EMAIL"
 {%- if cookiecutter.enable_mailhog == "y" %}
 dokku config:set --no-restart $APP_NAME DEFAULT_FROM_EMAIL="..."
 dokku config:set --no-restart $APP_NAME EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
@@ -195,6 +194,7 @@ Para finalizar as configurações iniciais, conecte novamente no servidor e
 execute:
 
 ```shell
+dokku letsencrypt:set $APP_NAME email "$LETSENCRYPT_EMAIL"
 dokku letsencrypt:enable $APP_NAME
 dokku checks:disable $APP_NAME
 dokku ps:scale $APP_NAME web={{ cookiecutter.dokku_web_workers }}
