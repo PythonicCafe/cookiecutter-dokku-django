@@ -6,10 +6,14 @@ WORKDIR /app
 
 RUN apt update \
   && apt install -y build-essential gettext gnupg make python3-dev wget \
+{%- if cookiecutter.database_software == "postgres" %}
   && echo "deb http://apt.postgresql.org/pub/repos/apt bullseye-pgdg main" > /etc/apt/sources.list.d/pgdg.list \
   && wget --quiet -O /etc/apt/trusted.gpg.d/postgres.asc https://www.postgresql.org/media/keys/ACCC4CF8.asc \
   && apt update \
   && apt install -y postgresql-client-15 libpq-dev \
+{%- elif database_software == "mariadb" %}
+                    pkg-config default-libmysqlclient-dev \
+{%- endif %}
   && apt upgrade -y \
   && apt purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt clean \

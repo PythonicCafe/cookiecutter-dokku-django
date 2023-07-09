@@ -1,1 +1,8 @@
+{%- if cookiecutter.database_software == "postgres" %}
 POSTGRES_PASSWORD="verysecret"
+{%- elif cookiecutter.database_software == "mariadb" %}
+MARIADB_USER="mariadb"
+MARIADB_PASSWORD="verysecret"
+MARIADB_DATABASE="dbname"
+MARIADB_ROOT_PASSWORD="supersecret"
+{%- endif %}

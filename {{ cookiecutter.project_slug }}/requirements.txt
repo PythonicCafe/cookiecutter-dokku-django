@@ -5,7 +5,11 @@ dj_database_url
 Django==4.1
 gunicorn
 ipython  # for enhanced Django shell
+{%- if cookiecutter.database_software == "postgres" %}
 psycopg2-binary
+{%- elif database_software == "mariadb" %}
+mysqlclient
+{%- endif %}
 python-decouple
 {%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}
 redis

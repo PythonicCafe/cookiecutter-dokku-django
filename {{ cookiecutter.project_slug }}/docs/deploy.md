@@ -68,7 +68,11 @@ dokku config:set --global DOKKU_RM_CONTAINER=1  # don't keep `run` containers ar
 # Dokku plugins
 dokku plugin:install https://github.com/dokku/dokku-letsencrypt.git
 dokku plugin:install https://github.com/dokku/dokku-maintenance.git
+{%- if cookiecutter.database_software == "postgres" %}
 dokku plugin:install https://github.com/dokku/dokku-postgres.git
+{%- elif database_software == "mariadb" %}
+dokku plugin:install https://github.com/dokku/dokku-mariadb.git
+{%- endif %}
 {% if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}
 dokku plugin:install https://github.com/dokku/dokku-redis.git
 {% endif %}
@@ -142,16 +146,21 @@ mkdir -p "$STORAGE_PATH"
 dokku storage:mount $APP_NAME "$STORAGE_PATH:$DATA_DIR"
 
 # Provisionando serviços de banco de dados
-dokku postgres:create $PG_NAME -i {{ cookiecutter.postgres_image }} -I {{ cookiecutter.postgres_version }} --shm-size {{ cookiecutter.postgres_shm_size }}
+{%- if cookiecutter.database_software == "postgres" %}
+dokku postgres:create $PG_NAME -i {{ cookiecutter.postgres_image }} -I {{ cookiecutter.postgres_version }} --shm-size {{ cookiecutter.db_shm_size }}
 dokku postgres:stop $PG_NAME
 # Cópia de arquivo local para o servidor remoto:
 scp docker/conf/db/postgresql.prd.conf root@<servidor>:/var/lib/dokku/services/postgres/$PG_NAME/data/postgresql.conf
 dokku postgres:start $PG_NAME
+dokku postgres:link $PG_NAME $APP_NAME
+{%- elif database_software == "mariadb" %}
+dokku mariadb:create $PG_NAME -i {{ cookiecutter.mariadb_image }} -I {{ cookiecutter.mariadb_version }} --shm-size {{ cookiecutter.db_shm_size }}
+dokku mariadb:link $PG_NAME $APP_NAME
+{%- endif %}
 {% if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}
 dokku redis:create $REDIS_NAME -i {{ cookiecutter.redis_image }} -I {{ cookiecutter.redis_version }}
 dokku redis:link $REDIS_NAME $APP_NAME
 {% endif %}
-dokku postgres:link $PG_NAME $APP_NAME
 
 dokku config:set --no-restart $APP_NAME ADMINS="$ADMINS"
 dokku config:set --no-restart $APP_NAME ALLOWED_HOSTS="$ALLOWED_HOSTS"

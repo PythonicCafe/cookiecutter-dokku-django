@@ -1,7 +1,11 @@
 ADMINS="App Admin|admin@myapp.example.com"
 ALLOWED_HOSTS="localhost"
 CSRF_TRUSTED_ORIGINS="http://$ALLOWED_HOSTS"
+{%- if cookiecutter.database_software == "postgres" %}
 DATABASE_URL="postgres://postgres:verysecret@db:5432/postgres"
+{%- elif database_software == "mariadb" %}
+DATABASE_URL="mysql://mariadb:verysecret@db:3306/dbname"
+{%- endif %}
 DATA_DIR="/data"
 DEBUG="True"
 DEBUG_SQL="True"
