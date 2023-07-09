@@ -2,7 +2,7 @@
 celery
 {%- endif %}
 dj_database_url
-Django==4.1
+Django >= 4.1, < 4.2
 gunicorn
 ipython  # for enhanced Django shell
 {%- if cookiecutter.database_software == "postgres" %}
