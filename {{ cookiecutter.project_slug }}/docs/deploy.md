@@ -124,7 +124,11 @@ export DATA_DIR="/data"
 export DEBUG="false"
 export DEV_BUILD="false"
 export EMAIL_BACKEND="sgbackend.SendGridBackend"
-export PG_NAME="pg_${APP_NAME}"
+{%- if cookiecutter.database_software == "postgres" %}
+export DB_NAME="pg_${APP_NAME}"
+{%- elif database_software == "mariadb" %}
+export DB_NAME="mdb_${APP_NAME}"
+{%- endif %}
 {% if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}
 export REDIS_NAME="redis_${APP_NAME}"
 {% endif %}
@@ -147,15 +151,15 @@ dokku storage:mount $APP_NAME "$STORAGE_PATH:$DATA_DIR"
 
 # Provisionando serviços de banco de dados
 {%- if cookiecutter.database_software == "postgres" %}
-dokku postgres:create $PG_NAME -i {{ cookiecutter.postgres_image }} -I {{ cookiecutter.postgres_version }} --shm-size {{ cookiecutter.db_shm_size }}
-dokku postgres:stop $PG_NAME
+dokku postgres:create $DB_NAME -i {{ cookiecutter.postgres_image }} -I {{ cookiecutter.postgres_version }} --shm-size {{ cookiecutter.db_shm_size }}
+dokku postgres:stop $DB_NAME
 # Cópia de arquivo local para o servidor remoto:
-scp docker/conf/db/postgresql.prd.conf root@<servidor>:/var/lib/dokku/services/postgres/$PG_NAME/data/postgresql.conf
-dokku postgres:start $PG_NAME
-dokku postgres:link $PG_NAME $APP_NAME
+scp docker/conf/db/postgresql.prd.conf root@<servidor>:/var/lib/dokku/services/postgres/$DB_NAME/data/postgresql.conf
+dokku postgres:start $DB_NAME
+dokku postgres:link $DB_NAME $APP_NAME
 {%- elif database_software == "mariadb" %}
-dokku mariadb:create $PG_NAME -i {{ cookiecutter.mariadb_image }} -I {{ cookiecutter.mariadb_version }} --shm-size {{ cookiecutter.db_shm_size }}
-dokku mariadb:link $PG_NAME $APP_NAME
+dokku mariadb:create $DB_NAME -i {{ cookiecutter.mariadb_image }} -I {{ cookiecutter.mariadb_version }} --shm-size {{ cookiecutter.db_shm_size }}
+dokku mariadb:link $DB_NAME $APP_NAME
 {%- endif %}
 {% if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}
 dokku redis:create $REDIS_NAME -i {{ cookiecutter.redis_image }} -I {{ cookiecutter.redis_version }}
