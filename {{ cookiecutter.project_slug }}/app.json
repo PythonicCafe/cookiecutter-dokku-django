@@ -1,4 +1,14 @@
 {
   "cron": [
-  ]
+  ],
+  "healthchecks": {
+    "web": [
+      {
+        "type": "startup",
+        "name": "web home check",
+        "description": "Check /",
+        "path": "/"
+      }
+    ]
+  }
 }
