@@ -3,6 +3,7 @@ version: "3.8"
 services:
   web:
     env_file: "docker/env/web"
+    user: "${UID:-1000}:${GID:-1000}"
     build:
       context: .
       dockerfile: "Dockerfile"
