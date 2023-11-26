@@ -57,11 +57,11 @@ services:
       retries: 5
 {%- elif cookiecutter.database_software == "mariadb" %}
     image: "{{ cookiecutter.mariadb_image }}:{{ cookiecutter.mariadb_version }}"
-{%- endif %}
     volumes:
       - ${PWD}/docker/data/db:/var/lib/mysql
     healthcheck:
       test: ["CMD-SHELL", "/usr/local/bin/healthcheck.sh --su=mysql --connect --innodb_initialized"]
+{%- endif %}
 {%- if cookiecutter.enable_mailhog == "y" %}
   mail:
     image: "{{ cookiecutter.mailhog_image }}:{{ cookiecutter.mailhog_version }}"
