@@ -26,6 +26,7 @@ services:
 {%- if cookiecutter.enable_celery == "y" %}
   worker:
     env_file: "docker/env/web"
+    user: "${UID:-1000}:${GID:-1000}"
     build:
       context: .
       dockerfile: "Dockerfile"
@@ -44,6 +45,7 @@ services:
 {%- endif %}
   db:
     env_file: "docker/env/db"
+    user: "${UID:-1000}:${GID:-1000}"
     shm_size: "{{ cookiecutter.db_shm_size }}"
 {%- if cookiecutter.database_software == "postgres" %}
     image: "{{ cookiecutter.postgres_image }}:{{ cookiecutter.postgres_version }}"
@@ -65,6 +67,7 @@ services:
 {%- if cookiecutter.enable_mailhog == "y" %}
   mail:
     image: "{{ cookiecutter.mailhog_image }}:{{ cookiecutter.mailhog_version }}"
+    user: "${UID:-1000}:${GID:-1000}"
     env_file: "docker/env/mail"
     volumes:
       - ${PWD}/docker/data/mail:/data
@@ -75,6 +78,7 @@ services:
 {%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}
   cache:
     image: "{{ cookiecutter.redis_image }}:{{ cookiecutter.redis_version }}"
+    user: "${UID:-1000}:${GID:-1000}"
     env_file: "docker/env/redis"
     volumes:
       - ${PWD}/docker/data/cache:/data

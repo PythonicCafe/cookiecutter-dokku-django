@@ -3,6 +3,7 @@ FROM {{ cookiecutter.python_image }}:{{ cookiecutter.python_version }}
 ENV PYTHONUNBUFFERED 1
 ARG DEV_BUILD
 WORKDIR /app
+VOLUME /data
 
 RUN apt update \
   && apt install -y build-essential gettext gnupg make python3-dev wget \

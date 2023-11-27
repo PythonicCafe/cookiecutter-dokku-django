@@ -20,6 +20,10 @@ shell:
 	docker compose exec web python manage.py shell
 
 start:
+	UID=$${UID:-1000}
+	GID=$${UID:-1000}
+	mkdir -p docker/data/web docker/data/db{% if cookiecutter.enable_mailhog == "y" %} docker/data/mail{% endif %}{%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %} docker/data/cache{% endif %}
+	chown -R $$UID:$$GID docker/data/web docker/data/db{% if cookiecutter.enable_mailhog == "y" %} docker/data/mail{% endif %}{%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %} docker/data/cache{% endif %}
 	docker compose up -d
 
 stop:
