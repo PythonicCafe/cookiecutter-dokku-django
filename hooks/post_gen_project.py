@@ -6,7 +6,7 @@ if "{{ cookiecutter.enable_celery }}".lower() != "y":
     os.remove("bin/worker.sh")
 
 if "{{ cookiecutter.enable_redis }}".lower() != "y":
-    os.remove("docker/env/redis")
+    os.remove("docker/env/messaging")
 
 if "{{ cookiecutter.enable_mailhog }}".lower() != "y":
     os.remove("docker/env/mail")

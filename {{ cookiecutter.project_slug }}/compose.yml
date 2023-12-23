@@ -19,7 +19,7 @@ services:
       db:
         condition: service_healthy
 {%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}
-      cache:
+      messaging:
         condition: service_started
 {%- endif %}
 
@@ -39,7 +39,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      cache:
+      messaging:
         condition: service_started
 
 {%- endif %}
@@ -76,10 +76,10 @@ services:
 
 {%- endif %}
 {%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}
-  cache:
+  messaging:
     image: "{{ cookiecutter.redis_image }}:{{ cookiecutter.redis_version }}"
     user: "${UID:-1000}:${GID:-1000}"
-    env_file: "docker/env/redis"
+    env_file: "docker/env/messaging"
     volumes:
-      - ${PWD}/docker/data/cache:/data
+      - ${PWD}/docker/data/messaging:/data
 {%- endif %}
