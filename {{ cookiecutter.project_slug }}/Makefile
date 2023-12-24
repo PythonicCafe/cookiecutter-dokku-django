@@ -10,6 +10,10 @@ build:
 clean: stop
 	docker compose down -v --remove-orphans
 
+kill:
+	docker compose kill
+	docker compose rm --force
+
 lint:
 	docker compose exec web /app/lint.sh
 
@@ -27,8 +31,9 @@ start:
 	docker compose up -d
 
 stop:
-	docker compose kill
-	docker compose rm --force
+	docker compose down
+
+restart: stop start
 
 test:
 	docker compose exec web pytest
@@ -36,4 +41,4 @@ test:
 test-v:
 	docker compose exec web pytest -vvv
 
-.PHONY: bash bash-root build clean lint logs shell start stop test test-v
+.PHONY: bash bash-root build clean kill lint logs shell start stop restart test test-v
