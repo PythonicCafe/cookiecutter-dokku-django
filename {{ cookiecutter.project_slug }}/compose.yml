@@ -83,3 +83,20 @@ services:
     volumes:
       - ${PWD}/docker/data/messaging:/data
 {%- endif %}
+
+{%- if cookiecutter.enable_minio == "y" %}
+  storage:
+    image: "{{ cookiecutter.minio_image }}:{{ cookiecutter.minio_version }}"
+    env_file: "docker/env/storage"
+    volumes:
+      - ${PWD}/docker/data/storage:/data
+    ports:
+      - 9000:9000
+      - 9001:9001
+    command: ["server", "/data", "--console-address", ":9001"]
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9000/minio/index.html || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+{%- endif %}

@@ -54,6 +54,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     # Third-party apps
+{%- if cookiecutter.enable_minio == "y" %}
+    "storages",
+{%- endif  %}
     # Project apps
 ]
 
@@ -148,8 +151,20 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATIC_ROOT = str(BASE_DIR / "collected-static")
 STATICFILES_DIRS = [str(BASE_DIR / "static")]
+
+# Storage
 DEFAULT_FILE_STORAGE = config("DEFAULT_FILE_STORAGE", default="django.core.files.storage.FileSystemStorage")
 DATA_DIR = config("DATA_DIR", cast=Path)
+{%- if cookiecutter.enable_minio == "y" %}
+AWS_S3_ENDPOINT_URL = config("AWS_S3_ENDPOINT_URL")  # This is the server to connect to send files
+AWS_S3_ACCESS_KEY_ID = config("AWS_S3_ACCESS_KEY_ID")
+AWS_S3_SECRET_ACCESS_KEY = config("AWS_S3_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_CUSTOM_DOMAIN = config("AWS_S3_CUSTOM_DOMAIN", default=None)  # This is the base URL used when creating  links to files
+AWS_S3_URL_PROTOCOL = config("AWS_S3_URL_PROTOCOL", default="https:")
+AWS_AUTO_CREATE_BUCKET = True
+AWS_QUERYSTRING_AUTH = False
+{%- endif %}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

@@ -2,6 +2,9 @@
 celery
 {%- endif %}
 dj_database_url
+{%- if cookiecutter.enable_minio == "y" %}
+django-storages[s3]
+{%- endif %}
 Django >= 4.1, < 4.2
 gunicorn
 ipython  # for enhanced Django shell
