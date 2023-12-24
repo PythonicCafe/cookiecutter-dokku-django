@@ -45,3 +45,18 @@ You may need to backup the following directories:
 - `docker/data/web` in case your Web application stores user data in `/data` (or equivalent Dokku volume on production
   server)
 - `docker/data/db` for the database (or equivalent Dokku volume on production server)
+
+
+## Services
+
+The services configured on Docker compose are:
+
+- `web`: Django container, acessible through [localhost:5000](http://localhost:5000/)
+{%- if cookiecutter.database_software == "postgres" %}
+- `db`: postgres container, without port forwarding (you can connect `psql` to this database by running
+  `docker compose exec web python manage.py dbshell`)
+{%- endif %}
+{%- if cookiecutter.enable_minio == "y" %}
+- `storage`: MinIO container, acessible through [localhost:9000](http://localhost:9000/) (API) and
+  [localhost:9001](http://localhost:9001/) (console)
+{%- endif %}
