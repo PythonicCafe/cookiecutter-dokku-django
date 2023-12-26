@@ -221,3 +221,10 @@ Aplicação instalada e rodando! Para criar um superusuário no Django:
 ```shell
 dokku run $APP_NAME python manage.py createsuperuser
 ```
+
+{% if cookiecutter.enable_minio == "y" %}
+## MinIO
+
+O sistema necessita de uma instância do MinIO rodando. Para fazer o _deployment_ do MinIO em um servidor Dokku, siga as
+instruções do repositório [PythonicCafe/dokku-minio](https://github.com/PythonicCafe/dokku-minio/).
+{% endif %}
