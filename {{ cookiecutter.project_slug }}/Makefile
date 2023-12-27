@@ -20,6 +20,12 @@ lint:
 logs:
 	docker compose logs -f
 
+migrate:
+	docker compose exec web python manage.py migrate
+
+migrations:
+	docker compose exec web python manage.py makemigrations
+
 shell:
 	docker compose exec web python manage.py shell
 
@@ -41,4 +47,4 @@ test:
 test-v:
 	docker compose exec web pytest -vvv
 
-.PHONY: bash bash-root build clean kill lint logs shell start stop restart test test-v
+.PHONY: bash bash-root build clean kill lint logs migrate migrations shell start stop restart test test-v
