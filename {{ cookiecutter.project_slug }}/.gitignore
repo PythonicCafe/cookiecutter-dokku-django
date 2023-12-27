@@ -2,12 +2,15 @@
 *~
 .*.sw?
 .DS_Store
+.bash_history
 .directory
+.psql_history
+.python_history
 .sass-cache
 .vscode/
+collected-static/
 data/*
 docker/data
-collected-static/
 
 
 # Byte-compiled / optimized / DLL files
