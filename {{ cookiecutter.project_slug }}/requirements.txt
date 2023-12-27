@@ -1,5 +1,6 @@
 {%- if cookiecutter.enable_celery == "y" %}
 celery
+django-celery-results
 {%- endif %}
 dj_database_url
 {%- if cookiecutter.enable_minio == "y" %}

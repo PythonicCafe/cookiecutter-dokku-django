@@ -54,6 +54,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     # Third-party apps
+{%- if cookiecutter.enable_celery == "y" %}
+    "django_celery_results",
+{%- endif  %}
 {%- if cookiecutter.enable_minio == "y" %}
     "storages",
 {%- endif  %}
@@ -113,6 +116,9 @@ REDIS_URL = config("REDIS_URL")
 {%- if cookiecutter.enable_celery == "y" %}
 # Celery
 CELERY_BROKER_URL = REDIS_URL
+CELERY_RESULT_BACKEND = "django-db"
+CELERY_RESULT_EXTENDED = True
+CELERY_TASK_TRACK_STARTED = True
 
 {%- endif %}
 
