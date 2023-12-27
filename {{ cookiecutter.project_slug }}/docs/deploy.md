@@ -147,6 +147,7 @@ dokku nginx:set $APP_NAME client-max-body-size 50m
 # Provisionando um volume (será útil para transportar dados do container para a
 # máquina host, em tarefas de manutenção)
 mkdir -p "$STORAGE_PATH"
+chown -R 1000:1000 "$STORAGE_PATH"  # `django` user inside container have UID=GID=1000
 dokku storage:mount $APP_NAME "$STORAGE_PATH:$DATA_DIR"
 
 # Provisionando serviços de banco de dados
