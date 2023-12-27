@@ -10,6 +10,9 @@ build:
 clean: stop
 	docker compose down -v --remove-orphans
 
+dbshell:
+	docker compose exec web python manage.py dbshell
+
 kill:
 	docker compose kill
 	docker compose rm --force
@@ -47,4 +50,4 @@ test:
 test-v:
 	docker compose exec web pytest -vvv
 
-.PHONY: bash bash-root build clean kill lint logs migrate migrations shell start stop restart test test-v
+.PHONY: bash bash-root build clean dbshell kill lint logs migrate migrations shell start stop restart test test-v
