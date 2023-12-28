@@ -4,6 +4,7 @@
 .DS_Store
 .bash_history
 .directory
+.local/
 .psql_history
 .python_history
 .sass-cache
