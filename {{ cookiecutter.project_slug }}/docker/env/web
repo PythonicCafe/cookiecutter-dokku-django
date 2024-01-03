@@ -1,5 +1,5 @@
 ADMINS="App Admin|admin@myapp.example.com"
-ALLOWED_HOSTS="localhost"
+ALLOWED_HOSTS="localhost,127.0.0.1"
 {%- if cookiecutter.enable_minio == "y" %}
 AWS_S3_ACCESS_KEY_ID=minioroot
 AWS_S3_ENDPOINT_URL=http://storage:9000/
@@ -9,7 +9,7 @@ DEFAULT_FILE_STORAGE="storages.backends.s3boto3.S3Boto3Storage"
 AWS_S3_CUSTOM_DOMAIN="localhost:9000/${AWS_STORAGE_BUCKET_NAME}"
 AWS_S3_URL_PROTOCOL="http:"
 {%- endif %}
-CSRF_TRUSTED_ORIGINS="http://$ALLOWED_HOSTS"
+CSRF_TRUSTED_ORIGINS="http://localhost"
 {%- if cookiecutter.database_software == "postgres" %}
 DATABASE_URL="postgres://postgres:verysecret@db:5432/postgres"
 {%- elif database_software == "mariadb" %}
