@@ -28,6 +28,7 @@ EMAIL_PORT="1025"
 EMAIL_USE_SSL="False"
 EMAIL_USE_TLS="False"
 {%- endif %}
+GUNICORN_WORKERS=1
 {%- if cookiecutter.enable_redis == "y" or cookiecutter.enable_redis == "y" %}
 REDIS_URL="redis://messaging:6379/0"
 {%- endif %}
