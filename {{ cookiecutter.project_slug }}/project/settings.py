@@ -74,7 +74,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 if DEBUG and config("DEBUG_SQL", cast=bool, default=False):
-    MIDDLEWARE.append("utils.sqlprint.SqlPrintingMiddleware")
+    MIDDLEWARE.append("utils.sqlprint.SqlPrintingMiddleware")  # TODO: may use https://pypi.org/project/sqlformatter/
 
 ADMINS = config("ADMINS", cast=Csv(), default="")
 if ADMINS:
