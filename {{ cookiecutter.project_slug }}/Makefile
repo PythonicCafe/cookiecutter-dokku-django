@@ -21,7 +21,7 @@ lint:
 	docker compose exec web /app/lint.sh
 
 logs:
-	docker compose logs -f
+	docker compose logs -tf
 
 migrate:
 	docker compose exec web python manage.py migrate
