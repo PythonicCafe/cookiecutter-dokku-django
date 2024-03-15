@@ -23,7 +23,13 @@ else
 	APP_MODULE="project.wsgi:application"
 fi
 if [[ $(echo $DEV_BUILD | tr a-z A-Z) = "TRUE" ]]; then
-	OPTS="$OPTS --reload"
+	extra_reload_opts=$(
+		find -regextype posix-extended -regex '.*/(templates|static)/?$' \
+		| while read path; do
+			echo --reload-extra-file $path
+		done
+	)
+	OPTS="$OPTS --reload $extra_reload_opts"
 fi
 
 python manage.py collectstatic --no-input
