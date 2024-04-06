@@ -1,53 +1,56 @@
-bash:
-	docker compose exec web bash
+bash: start				# Run bash inside `web` container
+	docker compose exec -it web bash
 
-bash-root:
-	docker compose exec -u root web bash
+bash-root: start		# Run bash as root inside `web` container
+	docker compose exec -itu root web bash
 
-build:
+build:					# Build containers
 	docker compose build
 
-clean: stop
+clean: stop				# Stop and clean orphan containers
 	docker compose down -v --remove-orphans
 
-dbshell:
-	docker compose exec web python manage.py dbshell
+dbshell: start			# Connect to database shell using `web` container
+	docker compose exec -it web python manage.py dbshell
 
-kill:
+help:					# List all make commands
+	@awk -F ':.*#' '/^[a-zA-Z_-]+:.*?#/ { printf "\033[36m%-15s\033[0m %s\n", $$1, $$2 }' $(MAKEFILE_LIST) | sort
+
+kill:					# Force stop (kill) and remove containers
 	docker compose kill
 	docker compose rm --force
 
-lint:
-	docker compose exec web /app/lint.sh
+lint:					# Run linter script
+	docker compose exec -it web /app/lint.sh
 
-logs:
+logs:					# Show all containers' logs (tail)
 	docker compose logs -tf
 
-migrate:
-	docker compose exec web python manage.py migrate
+migrate:				# Execute Django migrations inside `web` container
+	docker compose exec -it web python manage.py migrate
 
-migrations:
-	docker compose exec web python manage.py makemigrations
+migrations:				# Execute `makemigrations` inside `web` container
+	docker compose exec -it web python manage.py makemigrations
 
-shell:
-	docker compose exec web python manage.py shell
+shell:					# Execute Django shell inside `web` container
+	docker compose exec -it web python manage.py shell
 
-start:
+restart: stop start		# Stop all containers and start all containers in background
+
+start:					# Start all containers in background
 	UID=$${UID:-1000}
 	GID=$${UID:-1000}
 	mkdir -p docker/data/web docker/data/db{% if cookiecutter.enable_mailhog == "y" %} docker/data/mail{% endif %}{%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %} docker/data/messaging{% endif %}{% if cookiecutter.enable_minio == "y" %} docker/data/storage{% endif %}
 	chown -R $$UID:$$GID docker/data/web docker/data/db{% if cookiecutter.enable_mailhog == "y" %} docker/data/mail{% endif %}{%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %} docker/data/messaging{% endif %}{% if cookiecutter.enable_minio == "y" %} docker/data/storage{% endif %}
 	docker compose up -d
 
-stop:
+stop:					# Stop all containers
 	docker compose down
 
-restart: stop start
+test:					# Execute `pytest` inside `web` container
+	docker compose exec -it web pytest
 
-test:
-	docker compose exec web pytest
+test-v:					# Execute `pytest` with verbose option inside `web` container
+	docker compose exec -it web pytest -vvv
 
-test-v:
-	docker compose exec web pytest -vvv
-
-.PHONY: bash bash-root build clean dbshell kill lint logs migrate migrations shell start stop restart test test-v
+.PHONY: bash bash-root build clean dbshell help kill lint logs migrate migrations restart shell start stop test test-v
