@@ -9,6 +9,7 @@ services:
       dockerfile: "Dockerfile"
       args:
         DEV_BUILD: "true"
+    image: {{ cookiecutter.project_name }}-web:latest
     command: bash -c "/app/bin/release.sh && /app/bin/web.sh"
     volumes:
       - ${PWD}/docker/data/web:/data
@@ -32,6 +33,7 @@ services:
       dockerfile: "Dockerfile"
       args:
         DEV_BUILD: "true"
+    image: {{ cookiecutter.project_name }}-web:latest
     command: /app/bin/worker.sh
     volumes:
       - ${PWD}/docker/data/web:/data
