@@ -10,3 +10,6 @@ if "{{ cookiecutter.enable_redis }}".lower() != "y":
 
 if "{{ cookiecutter.enable_mailhog }}".lower() != "y":
     os.remove("docker/env/mail")
+
+if "{{ cookiecutter.enable_minio }}".lower() != "y":
+    os.remove("docker/env/storage")
