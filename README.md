@@ -27,27 +27,23 @@ git add .
 git commit -m "First commit"
 ```
 
-Then, read the created `<project_slug>/README.md` for local development instructions and `<project_slug/docs/deploy.md>`
-for deployment instructions.
+Then, read the created `<project_slug>/README.md` for local development instructions and
+`<project_slug/docs/deploy.md>` for deployment instructions.
 
 
 ## To do
 
 - [ ] Add a git pre-commit hook to automatically run tests, linter etc.
-- [ ] Run containers as regular user so files created inside container will be acessible by current host user (there
-  are a [plenty of hacks in this issue](https://github.com/docker/compose/issues/2380))
-- [ ] Add `django_celery_beat` and `django_celery_results`?
 - [ ] Add plenty of possible email backends (SMTP, Sendgrid, Mailgun, AWS SES etc.)
 - [ ] Configure workflows (CI/CD)
 - [ ] Enhance `.dockerignore`
 - [ ] Pin requirements' versions
 - [ ] Replace `requirements.txt`/`requirements-development.txt` with other dependency file type
-- [ ] Add option to multistage build when user needs to compile JS
+- [ ] Add option to multistage build when user needs to compile JS/CSS
 - [ ] Translate `docs/deploy.md` to other languages (currently only available in Brazilian Portuguese)
-- [ ] Add more info about the docker compose services (paths, for example) on project's README
-- [ ] Add option to configure AWS S3 and/or MinIO (add MinIO service to compose
-  + settings)
-- [ ] Check other implementations, like cookiecutter-django and https://github.com/HBNetwork/django-boilerplate
+- [ ] Check things we're missing that other implementations have, like
+  [cookiecutter-django](https://github.com/cookiecutter/cookiecutter-django) and
+  [django-boilerplate](https://github.com/HBNetwork/django-boilerplate)
 
 
 ## Updating PostgreSQL config file
