@@ -55,8 +55,12 @@ The services configured on Docker compose are:
 
 - `web`: Django container, acessible through [localhost:5000](http://localhost:5000/)
 {%- if cookiecutter.database_software == "postgres" %}
-- `db`: postgres container, without port forwarding (you can connect `psql` to this database by running
-  `docker compose exec web python manage.py dbshell`)
+- `db`: postgres container, without port forwarding from the host machine (you can connect `psql` to this database by
+  running `docker compose exec web python manage.py dbshell`)
+{%- endif %}
+{%- if cookiecutter.enable_redis == "y" %}
+- `messaging`: redis container, without port forwarding from the host machine (you can connect to it by running
+  `docker compose exec messaging redis-cli`)
 {%- endif %}
 {%- if cookiecutter.enable_minio == "y" %}
 - `storage`: MinIO container, acessible through [localhost:9000](http://localhost:9000/) (API) and
