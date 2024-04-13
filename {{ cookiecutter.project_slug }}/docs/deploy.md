@@ -113,7 +113,9 @@ não precisaremos armazenar senhas em arquivos no repositório).
 # Provavelmente você precisará trocar apenas essas primeiras:
 export APP_NAME="{{ cookiecutter.project_slug }}"
 export APP_DOMAIN="myapp.example.com"  # Domínio por onde o app será acessado
+{%- if cookiecutter.enable_sentry == "y" %}
 export SENTRY_DSN="..."  # URL de acesso ao Sentry, para reporte de erros
+{%- endif %}
 export ADMINS="App Admin|admin@myapp.example.com"
 export DEFAULT_FROM_EMAIL="noreply@myapp.example.com"
 

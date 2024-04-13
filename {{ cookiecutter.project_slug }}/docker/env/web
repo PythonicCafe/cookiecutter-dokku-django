@@ -30,7 +30,10 @@ EMAIL_USE_SSL="False"
 EMAIL_USE_TLS="False"
 {%- endif %}
 GUNICORN_WORKERS=1
-{%- if cookiecutter.enable_redis == "y" or cookiecutter.enable_redis == "y" %}
+{%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}
 REDIS_URL="redis://messaging:6379/0"
 {%- endif %}
 SECRET_KEY="12345qwert67890yuiop12345qwert67890yuiop12345qwert67890yuiop12345qwert67890yuiop"
+{%- if cookiecutter.enable_sentry == "y" %}
+SENTRY_DSN=""
+{%- endif %}

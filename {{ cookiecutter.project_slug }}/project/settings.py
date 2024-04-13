@@ -108,7 +108,7 @@ WSGI_APPLICATION = "project.wsgi.application"
 DATABASES = {
     "default": dj_database_url.config(),
 }
-{%- if cookiecutter.enable_redis == "y" or cookiecutter.enable_celery == "y" %}
+{%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}
 # Redis
 REDIS_URL = config("REDIS_URL")
 
