@@ -1,5 +1,5 @@
 ADMINS="App Admin|admin@myapp.example.com"
-ALLOWED_HOSTS="localhost,127.0.0.1"
+ALLOWED_HOSTS="localhost,127.0.0.1,[::1]"
 {%- if cookiecutter.enable_minio == "y" %}
 AWS_S3_ACCESS_KEY_ID=minioroot
 AWS_S3_ENDPOINT_URL=http://storage:9000/
