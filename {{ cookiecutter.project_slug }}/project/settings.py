@@ -108,6 +108,7 @@ WSGI_APPLICATION = "project.wsgi.application"
 DATABASES = {
     "default": dj_database_url.config(),
 }
+DATABASES["default"]["CONN_MAX_AGE"] = config("DATABASE_CONN_MAX_AGE", default=3600, cast=int)  # seconds
 {%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}
 # Redis
 REDIS_URL = config("REDIS_URL")

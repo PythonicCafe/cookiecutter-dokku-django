@@ -12,6 +12,7 @@ AWS_S3_URL_PROTOCOL="http:"
 CSRF_TRUSTED_ORIGINS="http://localhost"
 {%- if cookiecutter.database_software == "postgres" %}
 DATABASE_URL="postgres://postgres:verysecret@db:5432/postgres"
+DATABASE_CONN_MAX_AGE=3600
 {%- elif database_software == "mariadb" %}
 DATABASE_URL="mysql://mariadb:verysecret@db:3306/dbname"
 {%- endif %}
