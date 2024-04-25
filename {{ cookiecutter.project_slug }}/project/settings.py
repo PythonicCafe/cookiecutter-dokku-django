@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
+# TODO: upgrade to Django 4.2
 
 import os
 from pathlib import Path
@@ -161,6 +162,7 @@ STATICFILES_DIRS = [str(BASE_DIR / "static")]
 
 # Storage
 DEFAULT_FILE_STORAGE = config("DEFAULT_FILE_STORAGE", default="django.core.files.storage.FileSystemStorage")
+# TODO: set STORAGES?
 DATA_DIR = config("DATA_DIR", cast=Path)
 {%- if cookiecutter.enable_minio == "y" %}
 AWS_S3_ENDPOINT_URL = config("AWS_S3_ENDPOINT_URL")  # This is the server to connect to send files

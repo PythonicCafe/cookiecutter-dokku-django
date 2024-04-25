@@ -2,7 +2,9 @@ version: "3.8"
 
 services:
   web:
-    env_file: "docker/env/web"
+    env_file:
+      - "docker/env/web"
+      - "docker/env/web.local"
     user: "${UID:-1000}:${GID:-1000}"
     build:
       context: .
@@ -27,7 +29,9 @@ services:
 
 {%- if cookiecutter.enable_celery == "y" %}
   worker:
-    env_file: "docker/env/web"
+    env_file:
+      - "docker/env/web"
+      - "docker/env/web.local"
     user: "${UID:-1000}:${GID:-1000}"
     build:
       context: .
@@ -48,7 +52,9 @@ services:
 
 {%- endif %}
   db:
-    env_file: "docker/env/db"
+    env_file:
+      - "docker/env/db"
+      - "docker/env/db.local"
     user: "${UID:-1000}:${GID:-1000}"
     shm_size: "{{ cookiecutter.db_shm_size }}"
 {%- if cookiecutter.database_software == "postgres" %}
@@ -72,7 +78,9 @@ services:
   mail:
     image: "{{ cookiecutter.mailhog_image }}:{{ cookiecutter.mailhog_version }}"
     user: "${UID:-1000}:${GID:-1000}"
-    env_file: "docker/env/mail"
+    env_file:
+      - "docker/env/mail"
+      - "docker/env/mail.local"
     volumes:
       - ${PWD}/docker/data/mail:/data
     ports:
@@ -83,7 +91,9 @@ services:
   messaging:
     image: "{{ cookiecutter.redis_image }}:{{ cookiecutter.redis_version }}"
     user: "${UID:-1000}:${GID:-1000}"
-    env_file: "docker/env/messaging"
+    env_file:
+      - "docker/env/messaging"
+      - "docker/env/messaging.local"
     volumes:
       - ${PWD}/docker/data/messaging:/data
 
@@ -92,7 +102,9 @@ services:
 {%- if cookiecutter.enable_minio == "y" %}
   storage:
     image: "{{ cookiecutter.minio_image }}:{{ cookiecutter.minio_version }}"
-    env_file: "docker/env/storage"
+    env_file:
+      - "docker/env/storage"
+      - "docker/env/storage.local"
     volumes:
       - ${PWD}/docker/data/storage:/data
     ports:

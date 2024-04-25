@@ -33,7 +33,6 @@ Then, read the created `<project_slug>/README.md` for local development instruct
 
 ## To do
 
-- [ ] Make it easier to maintain non-commitable env vars file
 - [ ] Add a git pre-commit hook to automatically run tests, linter etc.
 - [ ] Add plenty of possible email backends (SMTP, Sendgrid, Mailgun, AWS SES etc.)
 - [ ] Add IMAP container for testing (something like

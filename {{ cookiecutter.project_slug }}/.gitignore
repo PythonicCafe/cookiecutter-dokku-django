@@ -12,6 +12,7 @@
 collected-static/
 data/*
 docker/data
+docker/env/*.local
 
 
 # Byte-compiled / optimized / DLL files

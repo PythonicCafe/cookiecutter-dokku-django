@@ -41,6 +41,14 @@ make lint
 
 For more commands check `make help`.
 
+
+## Customizing environment variables
+
+For each service we have a default environment file named `docker/env/<service>`. If you need to change any of the
+default variables, create a file `docker/env/<service>.local` and put them there. This file will be ignored by Git and
+docker compose will load it right after the default one (overwriting the values with your version).
+
+
 ## Backup
 
 You may need to backup the following directories:
