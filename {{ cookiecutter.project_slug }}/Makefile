@@ -38,10 +38,10 @@ shell:					# Execute Django shell inside `web` container
 restart: stop start		# Stop all containers and start all containers in background
 
 start:					# Start all containers in background
-	UID=$${UID:-1000}
-	GID=$${UID:-1000}
+	userID=$${UID:-1000}
+	groupID=$${UID:-1000}
 	mkdir -p docker/data/web docker/data/db{% if cookiecutter.enable_mailhog == "y" %} docker/data/mail{% endif %}{%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %} docker/data/messaging{% endif %}{% if cookiecutter.enable_minio == "y" %} docker/data/storage{% endif %}
-	chown -R $$UID:$$GID docker/data/web docker/data/db{% if cookiecutter.enable_mailhog == "y" %} docker/data/mail{% endif %}{%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %} docker/data/messaging{% endif %}{% if cookiecutter.enable_minio == "y" %} docker/data/storage{% endif %}
+	chown -R $$userID:$$groupID docker/data/web docker/data/db{% if cookiecutter.enable_mailhog == "y" %} docker/data/mail{% endif %}{%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %} docker/data/messaging{% endif %}{% if cookiecutter.enable_minio == "y" %} docker/data/storage{% endif %}
 	touch docker/env/web.local docker/env/db.local{% if cookiecutter.enable_mailhog == "y" %} docker/env/mail.local{% endif %}{%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %} docker/env/messaging.local{% endif %}{% if cookiecutter.enable_minio == "y" %} docker/env/storage.local{% endif %}
 	docker compose up -d
 
