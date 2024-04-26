@@ -189,6 +189,7 @@ dokku config:set --no-restart $APP_NAME SECRET_KEY="$SECRET_KEY"
 {%- if cookiecutter.enable_sentry == "y" %}
 dokku config:set --no-restart $APP_NAME SENTRY_DSN="$SENTRY_DSN"
 {%- endif %}
+dokku checks:disable $APP_NAME
 ```
 
 Com o app criado e configurado, agora precisamos fazer o primeiro deployment,
@@ -212,7 +213,6 @@ execute:
 ```shell
 dokku letsencrypt:set $APP_NAME email "$LETSENCRYPT_EMAIL"
 dokku letsencrypt:enable $APP_NAME
-dokku checks:disable $APP_NAME
 dokku ps:scale $APP_NAME web={{ cookiecutter.dokku_web_workers }}
 {% if cookiecutter.enable_celery == "y" %}
 dokku ps:scale $APP_NAME worker={{ cookiecutter.celery_workers }}
@@ -224,10 +224,10 @@ Aplicação instalada e rodando! Para criar um superusuário no Django:
 ```shell
 dokku run $APP_NAME python manage.py createsuperuser
 ```
+{%- if cookiecutter.enable_minio == "y" -%}
 
-{% if cookiecutter.enable_minio == "y" %}
 ## MinIO
 
 O sistema necessita de uma instância do MinIO rodando. Para fazer o _deployment_ do MinIO em um servidor Dokku, siga as
 instruções do repositório [PythonicCafe/dokku-minio](https://github.com/PythonicCafe/dokku-minio/).
-{% endif %}
+{%- endif -%}

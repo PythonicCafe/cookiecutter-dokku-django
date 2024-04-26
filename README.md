@@ -33,6 +33,9 @@ Then, read the created `<project_slug>/README.md` for local development instruct
 
 ## To do
 
+- [ ] Fix Dokku healthchecks (do not disable) while having `*` not in `ALLOWED_HOSTS` (use `httpHeaders` from
+  [docker-container-healthchecker](https://github.com/dokku/docker-container-healthchecker))
+- [ ] Add support for using Ansible with [ansible-dokku](https://github.com/dokku/ansible-dokku)
 - [ ] Add a git pre-commit hook to automatically run tests, linter etc.
 - [ ] Add plenty of possible email backends (SMTP, Sendgrid, Mailgun, AWS SES etc.)
 - [ ] Add IMAP container for testing (something like
