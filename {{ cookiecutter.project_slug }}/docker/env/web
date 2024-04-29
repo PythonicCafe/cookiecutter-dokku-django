@@ -1,3 +1,5 @@
+# Environment variables for `web` service
+
 ADMINS="App Admin|admin@myapp.example.com"
 ALLOWED_HOSTS="localhost,127.0.0.1,[::1]"
 {%- if cookiecutter.enable_minio == "y" %}

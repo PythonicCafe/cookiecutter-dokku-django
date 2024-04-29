@@ -1,3 +1,5 @@
+# Environment variables for `db` service
+
 {%- if cookiecutter.database_software == "postgres" %}
 POSTGRES_PASSWORD="verysecret"
 {%- elif cookiecutter.database_software == "mariadb" %}
