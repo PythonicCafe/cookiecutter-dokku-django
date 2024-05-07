@@ -4,7 +4,7 @@ bash: start				# Run bash inside `web` container
 bash-root: start		# Run bash as root inside `web` container
 	docker compose exec -itu root web bash
 
-build:					# Build containers
+build: fix-permissions			# Build containers
 	docker compose build
 
 clean: stop				# Stop and clean orphan containers
@@ -12,6 +12,13 @@ clean: stop				# Stop and clean orphan containers
 
 dbshell: start			# Connect to database shell using `web` container
 	docker compose exec -it web python manage.py dbshell
+
+fix-permissions:		# Fix volume permissions on host machine
+	userID=$${UID:-1000}
+	groupID=$${UID:-1000}
+	mkdir -p docker/data/web docker/data/db{% if cookiecutter.enable_mailhog == "y" %} docker/data/mail{% endif %}{%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %} docker/data/messaging{% endif %}{% if cookiecutter.enable_minio == "y" %} docker/data/storage{% endif %}
+	chown -R $$userID:$$groupID docker/data/web docker/data/db{% if cookiecutter.enable_mailhog == "y" %} docker/data/mail{% endif %}{%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %} docker/data/messaging{% endif %}{% if cookiecutter.enable_minio == "y" %} docker/data/storage{% endif %}
+	touch docker/env/web.local docker/env/db.local{% if cookiecutter.enable_mailhog == "y" %} docker/env/mail.local{% endif %}{%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %} docker/env/messaging.local{% endif %}{% if cookiecutter.enable_minio == "y" %} docker/env/storage.local{% endif %}
 
 help:					# List all make commands
 	@awk -F ':.*#' '/^[a-zA-Z_-]+:.*?#/ { printf "\033[36m%-15s\033[0m %s\n", $$1, $$2 }' $(MAKEFILE_LIST) | sort
@@ -37,12 +44,7 @@ shell:					# Execute Django shell inside `web` container
 
 restart: stop start		# Stop all containers and start all containers in background
 
-start:					# Start all containers in background
-	userID=$${UID:-1000}
-	groupID=$${UID:-1000}
-	mkdir -p docker/data/web docker/data/db{% if cookiecutter.enable_mailhog == "y" %} docker/data/mail{% endif %}{%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %} docker/data/messaging{% endif %}{% if cookiecutter.enable_minio == "y" %} docker/data/storage{% endif %}
-	chown -R $$userID:$$groupID docker/data/web docker/data/db{% if cookiecutter.enable_mailhog == "y" %} docker/data/mail{% endif %}{%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %} docker/data/messaging{% endif %}{% if cookiecutter.enable_minio == "y" %} docker/data/storage{% endif %}
-	touch docker/env/web.local docker/env/db.local{% if cookiecutter.enable_mailhog == "y" %} docker/env/mail.local{% endif %}{%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %} docker/env/messaging.local{% endif %}{% if cookiecutter.enable_minio == "y" %} docker/env/storage.local{% endif %}
+start: fix-permissions	# Start all containers in background
 	docker compose up -d
 
 stop:					# Stop all containers
@@ -54,4 +56,4 @@ test:					# Execute `pytest` inside `web` container
 test-v:					# Execute `pytest` with verbose option inside `web` container
 	docker compose exec -it web pytest -vvv
 
-.PHONY: bash bash-root build clean dbshell help kill lint logs migrate migrations restart shell start stop test test-v
+.PHONY: bash bash-root build clean dbshell fix-permissions help kill lint logs migrate migrations restart shell start stop test test-v
