@@ -19,6 +19,6 @@ python-decouple
 redis
 {%- endif %}
 {%- if cookiecutter.enable_sentry == "y" %}
-sentry-sdk
+sentry-sdk>=1.45.0,<2.0.0
 {%- endif %}
 whitenoise
