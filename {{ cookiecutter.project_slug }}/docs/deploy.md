@@ -191,6 +191,12 @@ dokku config:set --no-restart $APP_NAME SENTRY_DSN="$SENTRY_DSN"
 {%- endif %}
 dokku checks:disable $APP_NAME
 ```
+{%- if cookiecutter.database_software == "postgres" %}
+Caso queira alterar a versão do postgres, atualize o arquivo de configuração da versão correspondente executando:
+```shell
+docker run --rm -v $(pwd)/docker/conf/db/:/data postgres:16.2-bullseye cp ./usr/share/postgresql/postgresql.conf.sample /data/postgresql.prd.conf
+```
+{%- endif %}
 
 Com o app criado e configurado, agora precisamos fazer o primeiro deployment,
 para então finalizar a configuração com a criação do certificado SSL via Let's
