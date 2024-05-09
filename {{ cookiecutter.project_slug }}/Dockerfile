@@ -29,7 +29,7 @@ RUN apt update \
 {%- endif %}
 
 RUN addgroup --gid ${GID:-1000} django \
-  && adduser --gid ${GID:-1000} --uid ${UID:-1000} --home=/app django \
+  && adduser --disabled-password --gecos "" --home /app --uid ${UID:-1000} --gid ${GID:-1000} django \
   && chown -R django:django /app
 
 COPY requirements.txt /app/
