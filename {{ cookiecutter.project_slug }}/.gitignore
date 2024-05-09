@@ -1,8 +1,13 @@
 # Custom ignores
 *.csv
+*.db
+*.json
+*.sqlite
+*.sqlite3
 *~
 .*.sw?
 .DS_Store
+.activate
 .bash_history
 .directory
 .local/
@@ -14,6 +19,7 @@ collected-static/
 data/*
 docker/data
 docker/env/*.local
+reg_settings.py
 
 
 # Ignore patterns from <https://github.com/github/gitignore/blob/main/Python.gitignore>
