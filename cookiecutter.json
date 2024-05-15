@@ -23,7 +23,7 @@
   "python_image": "python",
   "python_version": "3.11-slim-bullseye",
   "redis_image": "redis",
-  "redis_version": "alpine",
+  "redis_version": "6.2-alpine",
   "author": "Your name",
   "copyright_year": "2023",
   "license": ["GPL 3", "LGPL 3", "AGPL 3", "Apache 2.0", "MIT", "BSD", "Closed source"]
