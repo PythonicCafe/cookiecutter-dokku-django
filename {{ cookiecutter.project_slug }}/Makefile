@@ -1,7 +1,7 @@
-bash: start				# Run bash inside `web` container
+bash: 					# Run bash inside `web` container
 	docker compose exec -it web bash
 
-bash-root: start		# Run bash as root inside `web` container
+bash-root: 				# Run bash as root inside `web` container
 	docker compose exec -itu root web bash
 
 build: fix-permissions			# Build containers
