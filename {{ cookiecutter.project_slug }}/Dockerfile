@@ -38,7 +38,6 @@ RUN pip install --no-cache-dir -U pip \
   && pip install --no-cache-dir -Ur /app/requirements.txt \
   && if [ "$(echo $DEV_BUILD | tr A-Z a-z)" = "true" ]; then pip install --no-cache-dir -Ur /app/requirements-development.txt; fi
 
-
 COPY . /app/
 RUN chown -R django:django /app
 USER django

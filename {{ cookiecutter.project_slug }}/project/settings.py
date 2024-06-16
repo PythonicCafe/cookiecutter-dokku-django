@@ -58,6 +58,9 @@ INSTALLED_APPS = [
 {%- if cookiecutter.enable_celery == "y" %}
     "django_celery_results",
 {%- endif  %}
+{%- if cookiecutter.enable_django_extensions == "y" %}
+    "django_extensions",
+{%- endif %}
 {%- if cookiecutter.enable_minio == "y" %}
     "storages",
 {%- endif  %}

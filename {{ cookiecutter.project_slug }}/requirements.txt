@@ -3,6 +3,9 @@ celery
 django-celery-results
 {%- endif %}
 dj-database-url >= 2.1.0, < 3.0.0
+{%- if cookiecutter.enable_django_extensions == "y" %}
+django-extensions >= 3.2.3, < 4.0.0
+{%- endif %}
 {%- if cookiecutter.enable_minio == "y" %}
 django-storages[s3]
 {%- endif %}
