@@ -209,3 +209,7 @@ if SENTRY_DSN:
         send_default_pii=True,
     )
 {%- endif %}
+
+{%- if cookiecutter.enable_django_extensions == "y" %}
+SHELL_PLUS_PRINT_SQL_TRUNCATE = config("SHELL_PLUS_PRINT_SQL_TRUNCATE", cast=int, default=999_999)
+{%- endif %}
