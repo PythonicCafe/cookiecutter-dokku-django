@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 # TODO: upgrade to Django 4.2
 
-import os
 from pathlib import Path
 
 import dj_database_url
