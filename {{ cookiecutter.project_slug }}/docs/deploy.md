@@ -125,7 +125,6 @@ export CSRF_TRUSTED_ORIGINS="https://${APP_DOMAIN}"
 export DATA_DIR="/data"
 export DEBUG="false"
 export DEV_BUILD="false"
-export EMAIL_BACKEND="sgbackend.SendGridBackend"
 {%- if cookiecutter.database_software == "postgres" %}
 export DB_NAME="pg_${APP_NAME}"
 {%- elif database_software == "mariadb" %}
