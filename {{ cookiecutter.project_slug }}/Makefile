@@ -30,6 +30,9 @@ kill:					# Force stop (kill) and remove containers
 lint:					# Run linter script
 	docker compose exec -it web /app/lint.sh
 
+lint-check:				# Run the linter without changing files
+	docker compose exec web /app/lint.sh --check
+
 logs:					# Show all containers' logs (tail)
 	docker compose logs -tf
 
@@ -56,4 +59,4 @@ test:					# Execute `pytest` inside `web` container
 test-v:					# Execute `pytest` with verbose option inside `web` container
 	docker compose exec -it web pytest -vvv
 
-.PHONY: bash bash-root build clean dbshell fix-permissions help kill lint logs migrate migrations restart shell start stop test test-v
+.PHONY: bash bash-root build clean dbshell fix-permissions help kill lint lint-check logs migrate migrations restart shell start stop test test-v
