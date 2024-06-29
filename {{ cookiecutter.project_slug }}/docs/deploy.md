@@ -132,6 +132,16 @@ export DB_NAME="mdb_${APP_NAME}"
 {% if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}
 export REDIS_NAME="redis_${APP_NAME}"
 {% endif %}
+{%- if cookiecutter.enable_mailhog == "y" %}
+export EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
+export DEFAULT_FROM_EMAIL="noreply@myapp.example.com"
+export EMAIL_HOST="..."
+export EMAIL_HOST_PASSWORD="..."
+export EMAIL_HOST_USER="..."
+export EMAIL_PORT="..."
+export EMAIL_USE_SSL="..."
+export EMAIL_USE_TLS="..."
+{% endif %}
 export SECRET_KEY=$(openssl rand -base64 64 | tr -d ' \n')
 export STORAGE_PATH="/var/lib/dokku/data/storage/$APP_NAME"
 ```
@@ -177,14 +187,14 @@ dokku config:set --no-restart $APP_NAME DATA_DIR="$DATA_DIR"
 dokku config:set --no-restart $APP_NAME DEBUG="$DEBUG"
 dokku config:set --no-restart $APP_NAME DEV_BUILD="$DEV_BUILD"
 {%- if cookiecutter.enable_mailhog == "y" %}
-dokku config:set --no-restart $APP_NAME DEFAULT_FROM_EMAIL="..."
-dokku config:set --no-restart $APP_NAME EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
-dokku config:set --no-restart $APP_NAME EMAIL_HOST="..."
-dokku config:set --no-restart $APP_NAME EMAIL_HOST_PASSWORD="..."
-dokku config:set --no-restart $APP_NAME EMAIL_HOST_USER="..."
-dokku config:set --no-restart $APP_NAME EMAIL_PORT="..."
-dokku config:set --no-restart $APP_NAME EMAIL_USE_SSL="..."
-dokku config:set --no-restart $APP_NAME EMAIL_USE_TLS="..."
+dokku config:set --no-restart $APP_NAME DEFAULT_FROM_EMAIL="$DEFAULT_FROM_EMAIL"
+dokku config:set --no-restart $APP_NAME EMAIL_BACKEND="$EMAIL_BACKEND"
+dokku config:set --no-restart $APP_NAME EMAIL_HOST="$EMAIL_HOST"
+dokku config:set --no-restart $APP_NAME EMAIL_HOST_PASSWORD="$EMAIL_HOST_PASSWORD"
+dokku config:set --no-restart $APP_NAME EMAIL_HOST_USER="$EMAIL_HOST_USER"
+dokku config:set --no-restart $APP_NAME EMAIL_PORT="$EMAIL_PORT"
+dokku config:set --no-restart $APP_NAME EMAIL_USE_SSL="$EMAIL_USE_SSL"
+dokku config:set --no-restart $APP_NAME EMAIL_USE_TLS="$EMAIL_USE_TLS"
 {%- endif %}
 dokku config:set --no-restart $APP_NAME SECRET_KEY="$SECRET_KEY"
 {%- if cookiecutter.enable_sentry == "y" %}
