@@ -1,19 +1,19 @@
 # Deploy do projeto
 
-O deployment do projeto é realizado através do [Dokku](https://dokku.com/), que
-facilita a gestão de containers Docker e outros serviços, como bancos de dados,
-servidores de cache etc.
+O deployment do projeto é realizado utilizando o [Dokku](https://dokku.com/), que facilita a gestão de containers
+Docker e outros serviços, como bancos de dados, servidores de cache etc. (é um *platform-as-a-service* software livre).
+
 
 ## Configurações iniciais do servidor
 
 Para a segurança do servidor, é importante que você:
 
-- Utilize apenas chaves SSH para login (copie suas chaves usando o comando
-  `ssh-copy-id` ou coloque-as em `/root/.ssh/authorized_keys`)
-- Remova a opção de login via SSH usando senha (altere a configuração editando
-  o arquivo `/etc/ssh/ssh_config` e depois execude `service ssh restart`)
-- Se possível, crie um outro usuário que possua acesso via `sudo` e desabilite
-  o login do usuário root via SSH (edite o arquivo `/etc/ssh/ssh_config`)
+- Utilize apenas chaves SSH para login (copie suas chaves usando o comando `ssh-copy-id` ou coloque-as em
+  `/root/.ssh/authorized_keys`)
+- Remova a opção de login via SSH usando senha (altere a configuração editando o arquivo `/etc/ssh/ssh_config` e depois
+  execude `service ssh restart`)
+- Se possível, crie um outro usuário que possua acesso via `sudo` e desabilite o login do usuário root via SSH (edite o
+  arquivo `/etc/ssh/ssh_config`)
 
 
 ## Instalação de pacotes básicos de sistema
@@ -27,19 +27,22 @@ apt clean
 
 ## Instalação do Docker
 
-Caso a versão do Debian seja mais nova que bullseye, verifique mudanças nos
-comandos abaixo [na documentação do
+Caso a versão do Debian seja mais nova que bookworm, verifique mudanças nos comandos abaixo [na documentação do
 Docker](https://docs.docker.com/engine/install/debian/).
 
 ```shell
-apt remove docker docker-engine docker.io containerd runc
-mkdir -p /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do apt remove $pkg; done
 apt update
-apt install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+apt install -y ca-certificates curl
+install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+chmod a+r /etc/apt/keyrings/docker.asc
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  tee /etc/apt/sources.list.d/docker.list > /dev/null
+apt update
+apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 # Para testar:
 docker run --rm hello-world
@@ -47,23 +50,20 @@ docker run --rm hello-world
 
 ## Instalação e configuração do Dokku
 
-Caso a versão do Debian seja mais nova que bullseye, verifique mudanças nos
-comandos abaixo [na documentação do
+Caso a versão do Debian seja mais nova que bookworm, verifique mudanças nos comandos abaixo [na documentação do
 Dokku](https://dokku.com/docs/getting-started/install/debian/).
 
 ```shell
 wget -qO- https://packagecloud.io/dokku/dokku/gpgkey | tee /etc/apt/trusted.gpg.d/dokku.asc
-OS_ID="$(lsb_release -cs 2>/dev/null || echo "bionic")"
-echo "bionic focal jammy" | grep -q "$OS_ID" || OS_ID="bionic"
-echo "deb https://packagecloud.io/dokku/dokku/ubuntu/ ${OS_ID} main" | tee /etc/apt/sources.list.d/dokku.list
+# programmatically determine distro and codename
+DISTRO="$(awk -F= '$1=="ID" { print tolower($2) ;}' /etc/os-release)"
+OS_ID="$(awk -F= '$1=="VERSION_CODENAME" { print tolower($2) ;}' /etc/os-release)"
+echo "deb https://packagecloud.io/dokku/dokku/${DISTRO}/ ${OS_ID} main" | tee /etc/apt/sources.list.d/dokku.list
 apt update
 apt install -y dokku
 # Responda nas perguntas que quer habilitar vhost
 apt clean
 dokku plugin:install-dependencies --core
-
-# Dokku configs
-dokku config:set --global DOKKU_RM_CONTAINER=1  # don't keep `run` containers around
 
 # Dokku plugins
 dokku plugin:install https://github.com/dokku/dokku-letsencrypt.git
@@ -75,31 +75,30 @@ dokku plugin:install https://github.com/dokku/dokku-mariadb.git
 {%- endif %}
 {% if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}
 dokku plugin:install https://github.com/dokku/dokku-redis.git
-{% endif %}
+{%- endif %}
+
+# Dokku configs
+dokku config:set --global DOKKU_RM_CONTAINER=1  # don't keep `run` containers around
 dokku letsencrypt:cron-job --add
 ```
 
-Caso você não tenha colocado sua chave SSH do Dokku durante a execução do
-comando `apt install dokku`, você precisa adicioná-la com o seguinte comando:
+Caso você não tenha colocado sua chave SSH do Dokku durante a execução do comando `apt install dokku`, você precisa
+adicioná-la com o seguinte comando:
 
 ```shell
 dokku ssh-keys:add admin path/to/pub_key
 ```
 
-> Nota: o arquivo deve ter apenas uma chave SSH (caso o arquivo fornecido na
-> interface de configuração tenha mais de uma chave, a configuração precisará
-> ser feita manualmente, com o comando acima).
+> Nota: o arquivo deve ter apenas uma chave SSH (caso o arquivo fornecido na interface de configuração tenha mais de
+> uma chave, a configuração precisará ser feita manualmente, com o comando acima).
 
-Dessa forma, o usuário que possuir essa chave poderá fazer deployments via git
-nesse servidor.
+Dessa forma, o usuário que possuir essa chave poderá fazer deployments via git nesse servidor.
 
-> **Importante:** após a instalação do Dokku, caso não tenha respondido às
-> perguntas durante a instalação, será necessário acessar a interface Web
-> temporária para finalizar configuração (entre em `http://ip-do-servidor/` em
-> seu navegador).
+> **Importante:** após a instalação do Dokku, caso não tenha respondido às perguntas durante a instalação, será
+> necessário acessar a interface Web temporária para finalizar configuração (entre em `http://ip-do-servidor/` em seu
+> navegador).
 
-Ao finalizar a instalação do Dokku e acessar http://ip-do-servidor/ você deverá
-ver a mensagem "Welcome to nginx!".
+Ao finalizar a instalação do Dokku e acessar `http://ip-do-servidor/` você deverá ver a mensagem "Welcome to nginx!".
 
 
 ## Instalação da aplicação
