@@ -111,7 +111,7 @@ não precisaremos armazenar senhas em arquivos no repositório).
 ```shell
 # Provavelmente você precisará trocar apenas essas primeiras:
 export APP_NAME="{{ cookiecutter.project_slug }}"
-export APP_DOMAIN="myapp.example.com"  # Domínio por onde o app será acessado
+export APP_DOMAINS="myapp.example.com,another.example.com"  # Domínio por onde o app será acessado
 {%- if cookiecutter.enable_sentry == "y" %}
 export SENTRY_DSN="..."  # URL de acesso ao Sentry, para reporte de erros
 {%- endif %}
@@ -119,8 +119,8 @@ export ADMINS="App Admin|admin@myapp.example.com"
 export DEFAULT_FROM_EMAIL="noreply@myapp.example.com"
 
 export LETSENCRYPT_EMAIL="$(echo $ADMINS | sed 's/^[^|]*|\([^,]*\).*$/\1/')"
-export ALLOWED_HOSTS="$APP_DOMAIN"
-export CSRF_TRUSTED_ORIGINS="https://${APP_DOMAIN}"
+export ALLOWED_HOSTS="$APP_DOMAINS"
+export CSRF_TRUSTED_ORIGINS="$(echo https://$APP_DOMAINS | sed 's/,/,https:\/\//g')"
 export DATA_DIR="/data"
 export DEBUG="false"
 export DEV_BUILD="false"
@@ -141,7 +141,10 @@ banco de dados e fazer as configurações iniciais:
 
 ```shell
 dokku apps:create $APP_NAME
-dokku domains:add $APP_NAME $APP_DOMAIN
+dokku domains:clean $APP_NAME
+for domain in $(echo $APP_DOMAINS | tr ',' '\n'); do
+	dokku domains:add $APP_NAME $domain
+done
 dokku nginx:set $APP_NAME client-max-body-size 50m
 
 # Provisionando um volume (será útil para transportar dados do container para a
