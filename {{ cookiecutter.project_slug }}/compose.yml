@@ -47,8 +47,8 @@ services:
         condition: service_healthy
       messaging:
         condition: service_started
-
 {%- endif %}
+
   db:
     env_file:
       - "docker/env/db"
@@ -72,6 +72,7 @@ services:
     healthcheck:
       test: ["CMD-SHELL", "/usr/local/bin/healthcheck.sh --su=mysql --connect --innodb_initialized"]
 {%- endif %}
+
 {%- if cookiecutter.enable_mailhog == "y" %}
   mail:
     image: "{{ cookiecutter.mailhog_image }}:{{ cookiecutter.mailhog_version }}"
@@ -85,6 +86,7 @@ services:
       - "8025:8025"
 
 {%- endif %}
+
 {%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}
   messaging:
     image: "{{ cookiecutter.redis_image }}:{{ cookiecutter.redis_version }}"
