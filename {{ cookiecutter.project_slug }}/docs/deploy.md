@@ -151,7 +151,7 @@ banco de dados e fazer as configurações iniciais:
 
 ```shell
 dokku apps:create $APP_NAME
-dokku domains:clean $APP_NAME
+dokku domains:clear $APP_NAME
 for domain in $(echo $APP_DOMAINS | tr ',' '\n'); do
 	dokku domains:add $APP_NAME $domain
 done
