@@ -1,6 +1,6 @@
 FROM {{ cookiecutter.python_image }}:{{ cookiecutter.python_version }}
 
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONUNBUFFERED=1
 ARG DEV_BUILD
 WORKDIR /app
 VOLUME /data
