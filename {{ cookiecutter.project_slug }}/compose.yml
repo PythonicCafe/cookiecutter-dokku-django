@@ -102,6 +102,7 @@ services:
 {%- if cookiecutter.enable_minio == "y" %}
   storage:
     image: "{{ cookiecutter.minio_image }}:{{ cookiecutter.minio_version }}"
+    user: "${UID:-1000}:${GID:-1000}"
     env_file:
       - "docker/env/storage"
       - "docker/env/storage.local"
