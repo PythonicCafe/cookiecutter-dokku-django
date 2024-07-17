@@ -13,3 +13,6 @@ if "{{ cookiecutter.enable_mailhog }}".lower() != "y":
 
 if "{{ cookiecutter.enable_minio }}".lower() != "y":
     os.remove("docker/env/storage")
+
+if "{{ cookiecutter.database_software }}".lower() != "postgres":
+    os.remove(".psqlrc")
