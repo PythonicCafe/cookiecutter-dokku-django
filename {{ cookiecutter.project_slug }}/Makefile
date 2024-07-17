@@ -10,7 +10,7 @@ build: fix-permissions			# Build containers
 clean: stop				# Stop and clean orphan containers
 	docker compose down -v --remove-orphans
 
-dbshell: start			# Connect to database shell using `web` container
+dbshell: 				# Connect to database shell using `web` container
 	docker compose exec -it web python manage.py dbshell
 
 fix-permissions:		# Fix volume permissions on host machine
