@@ -8,6 +8,8 @@
 **/*.xlsx
 **/*.zip
 **/__pycache__
+*.dump
+*.dump.gz
 .dockerignore
 .git
 .gitignore
