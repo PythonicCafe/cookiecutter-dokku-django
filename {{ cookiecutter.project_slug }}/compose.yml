@@ -90,7 +90,6 @@ services:
 {%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}
   messaging:
     image: "{{ cookiecutter.redis_image }}:{{ cookiecutter.redis_version }}"
-    user: "${UID:-1000}:${GID:-1000}"
     env_file:
       - "docker/env/messaging"
       - "docker/env/messaging.local"
