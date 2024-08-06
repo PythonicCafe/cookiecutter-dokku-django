@@ -22,7 +22,7 @@
   "mariadb_version": "11",
   "db_shm_size": "2g",
   "python_image": "python",
-  "python_version": "3.11-slim-bullseye",
+  "python_version": "3.11-slim-bookworm",
   "redis_image": "redis",
   "redis_version": "6.2-alpine",
   "author": "Your name",
