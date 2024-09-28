@@ -18,6 +18,7 @@
   "database_software": ["postgres", "mariadb"],
   "postgres_image": "postgres",
   "postgres_version": "16.3-bookworm",
+  "postgres_fts_utils": ["y", "n"],
   "mariadb_image": "mariadb",
   "mariadb_version": "11",
   "db_shm_size": "2g",

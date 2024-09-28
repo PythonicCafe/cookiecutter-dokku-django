@@ -16,3 +16,6 @@ if "{{ cookiecutter.enable_minio }}".lower() != "y":
 
 if "{{ cookiecutter.database_software }}".lower() != "postgres":
     os.remove(".psqlrc")
+
+if "{{ cookiecutter.postgres_fts_utils }}".lower() != "y":
+    os.remove("project/utils/search.py")
