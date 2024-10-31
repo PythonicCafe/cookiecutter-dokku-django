@@ -2,6 +2,19 @@
 
 Esse documento contém algumas dicas para auxiliar no desenvolvimento local.
 
+## Alterando a quantidade de workers
+
+Por padrão, o docker compose irá executar {{ cookiecutter.celery_workers_production }}
+processo{% if cookiecutter.celery_workers_production != 1 %}s{% endif %} de worker. Para alterar esse número
+temporariamente, você pode executar o comando abaixo - para alterar para 8, por exemplo:
+
+```shell
+docker compose up -d --scale worker=8
+```
+
+> Nota: para alterar o valor padrão, altere o valor `deploy.replicas` dentro do serviço `worker` no arquivo
+> `compose.yml`.
+
 ## Migrando de banco de dados
 
 Se alguém fez uma atualização do postgres nesse repositório e você já tinha dados rodando na versão anterior, ainda não

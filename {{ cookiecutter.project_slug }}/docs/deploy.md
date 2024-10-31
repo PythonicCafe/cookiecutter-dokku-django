@@ -232,7 +232,7 @@ dokku letsencrypt:set $APP_NAME email "$LETSENCRYPT_EMAIL"
 dokku letsencrypt:enable $APP_NAME
 dokku ps:scale $APP_NAME web={{ cookiecutter.dokku_web_workers }}
 {% if cookiecutter.enable_celery == "y" %}
-dokku ps:scale $APP_NAME worker={{ cookiecutter.celery_workers }}
+dokku ps:scale $APP_NAME worker={{ cookiecutter.celery_workers_production }}
 {% endif %}
 ```
 
