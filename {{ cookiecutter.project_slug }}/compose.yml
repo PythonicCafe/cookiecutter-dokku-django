@@ -38,7 +38,7 @@ services:
         DEV_BUILD: "true"
     deploy:
       mode: replicated
-      replicas: {{ cookiecutter.local_celery_workers }}
+      replicas: {{ cookiecutter.celery_workers_local }}
     pull_policy: build
     image: {{ cookiecutter.project_slug }}-web:latest
     command: /app/bin/worker.sh
