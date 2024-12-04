@@ -118,6 +118,7 @@ REDIS_URL = config("REDIS_URL")
 {%- endif %}
 {%- if cookiecutter.enable_celery == "y" %}
 # Celery
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 CELERY_BROKER_URL = REDIS_URL
 CELERY_RESULT_BACKEND = "django-db"
 CELERY_RESULT_EXTENDED = True
