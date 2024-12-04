@@ -1,3 +1,4 @@
+# Django build
 FROM {{ cookiecutter.python_image }}:{{ cookiecutter.python_version }}
 
 ENV PYTHONUNBUFFERED=1
@@ -5,6 +6,7 @@ ARG DEV_BUILD
 WORKDIR /app
 VOLUME /data
 
+# Upgrade and install required system packages
 RUN apt update \
   && apt install -y build-essential gettext gnupg make python3-dev wget \
 {%- if cookiecutter.database_software == "postgres" %}
@@ -28,16 +30,20 @@ RUN apt update \
   && rm -rf /var/lib/apt/lists/*
 {%- endif %}
 
+# Create a non-root user to run the app
 RUN addgroup --gid ${GID:-1000} django \
   && adduser --disabled-password --gecos "" --home /app --uid ${UID:-1000} --gid ${GID:-1000} django \
   && chown -R django:django /app
 
-COPY requirements.txt /app/
-COPY requirements-development.txt /app/
-RUN pip install --no-cache-dir -U pip \
-  && pip install --no-cache-dir -Ur /app/requirements.txt \
+# Upgrade pip and install (if needed) expensive-to-build, big packages and the ones from other indexes (for caching)
+RUN pip install --no-cache-dir -U pip
+
+# Install app requirements
+COPY --chown=django:django requirements.txt /app/
+COPY --chown=django:django requirements-development.txt /app/
+RUN pip install --no-cache-dir -Ur /app/requirements.txt \
   && if [ "$(echo $DEV_BUILD | tr A-Z a-z)" = "true" ]; then pip install --no-cache-dir -Ur /app/requirements-development.txt; fi
 
-COPY . /app/
-RUN chown -R django:django /app
+# Copy all needed files and set permissions
+COPY --chown=django:django . /app/
 USER django

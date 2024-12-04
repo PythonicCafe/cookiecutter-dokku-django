@@ -16,8 +16,9 @@
 .pytest_cache
 Dockerfile
 README.md
-build
-data
-dist
-docker/data
-public
+build/
+collected-static/
+data/
+dist/
+docker/data/
+public/
