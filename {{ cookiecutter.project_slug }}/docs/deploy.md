@@ -103,10 +103,13 @@ Ao finalizar a instalação do Dokku e acessar `http://ip-do-servidor/` você de
 
 ## Instalação da aplicação
 
-Antes de criar a aplicação no Dokku será necessário configurar algumas
-variáveis no shell, para que elas sejam adicionadas às variáveis de ambiente do
-app (assim, o Dokku irá sempre carregá-las toda vez que o app for iniciado e
+Antes de criar a aplicação no Dokku será necessário configurar algumas variáveis no shell, para que elas sejam
+adicionadas às variáveis de ambiente do app (assim, o Dokku irá sempre carregá-las toda vez que o app for iniciado e
 não precisaremos armazenar senhas em arquivos no repositório).
+
+> Nota: recomenda-se o uso do `byobu`, que permite abrir vários terminais dentro do servidor e persiste os shells
+> abertos mesmo que sua conexão SSH com o servidor caia.
+
 
 ```shell
 # Provavelmente você precisará trocar apenas essas primeiras:
