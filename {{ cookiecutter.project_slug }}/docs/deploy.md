@@ -129,6 +129,7 @@ export EMAIL_HOST_USER="..."
 export EMAIL_PORT="..."
 export EMAIL_USE_SSL="..."
 export EMAIL_USE_TLS="..."
+export EMAIL_TIMEOUT="15"
 {% endif %}
 export ENV_TYPE="production" # Or 'staging'
 
@@ -197,6 +198,7 @@ dokku config:set --no-restart $APP_NAME EMAIL_HOST_USER="$EMAIL_HOST_USER"
 dokku config:set --no-restart $APP_NAME EMAIL_PORT="$EMAIL_PORT"
 dokku config:set --no-restart $APP_NAME EMAIL_USE_SSL="$EMAIL_USE_SSL"
 dokku config:set --no-restart $APP_NAME EMAIL_USE_TLS="$EMAIL_USE_TLS"
+dokku config:set --no-restart $APP_NAME EMAIL_TIMEOUT="$EMAIL_TIMEOUT"
 {%- endif %}
 dokku config:set --no-restart $APP_NAME ENV_TYPE="$ENV_TYPE"
 dokku config:set --no-restart $APP_NAME SECRET_KEY="$SECRET_KEY"
