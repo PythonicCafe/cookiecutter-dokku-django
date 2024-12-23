@@ -120,21 +120,6 @@ export SENTRY_DSN="..."  # URL de acesso ao Sentry, para reporte de erros
 {%- endif %}
 export ADMINS="App Admin|admin@myapp.example.com"
 export DEFAULT_FROM_EMAIL="noreply@myapp.example.com"
-
-export LETSENCRYPT_EMAIL="$(echo $ADMINS | sed 's/^[^|]*|\([^,]*\).*$/\1/')"
-export ALLOWED_HOSTS="$APP_DOMAINS"
-export CSRF_TRUSTED_ORIGINS="$(echo https://$APP_DOMAINS | sed 's/,/,https:\/\//g')"
-export DATA_DIR="/data"
-export DEBUG="false"
-export DEV_BUILD="false"
-{%- if cookiecutter.database_software == "postgres" %}
-export DB_NAME="pg_${APP_NAME}"
-{%- elif database_software == "mariadb" %}
-export DB_NAME="mdb_${APP_NAME}"
-{%- endif %}
-{% if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}
-export REDIS_NAME="redis_${APP_NAME}"
-{% endif %}
 {%- if cookiecutter.enable_mailhog == "y" %}
 export EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
 export DEFAULT_FROM_EMAIL="noreply@myapp.example.com"
@@ -144,6 +129,21 @@ export EMAIL_HOST_USER="..."
 export EMAIL_PORT="..."
 export EMAIL_USE_SSL="..."
 export EMAIL_USE_TLS="..."
+{% endif %}
+export ENV_TYPE="production" # Or 'staging'
+
+export LETSENCRYPT_EMAIL="$(echo $ADMINS | sed 's/^[^|]*|\([^,]*\).*$/\1/')"
+export ALLOWED_HOSTS="$APP_DOMAINS"
+export CSRF_TRUSTED_ORIGINS="$(echo https://$APP_DOMAINS | sed 's/,/,https:\/\//g')"
+export DATA_DIR="/data"
+export DEBUG="false"
+{%- if cookiecutter.database_software == "postgres" %}
+export DB_NAME="pg_${APP_NAME}"
+{%- elif database_software == "mariadb" %}
+export DB_NAME="mdb_${APP_NAME}"
+{%- endif %}
+{% if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}
+export REDIS_NAME="redis_${APP_NAME}"
 {% endif %}
 export SECRET_KEY=$(openssl rand -base64 64 | tr -d ' \n')
 export STORAGE_PATH="/var/lib/dokku/data/storage/$APP_NAME"
@@ -188,7 +188,6 @@ dokku config:set --no-restart $APP_NAME ALLOWED_HOSTS="$ALLOWED_HOSTS"
 dokku config:set --no-restart $APP_NAME CSRF_TRUSTED_ORIGINS="$CSRF_TRUSTED_ORIGINS"
 dokku config:set --no-restart $APP_NAME DATA_DIR="$DATA_DIR"
 dokku config:set --no-restart $APP_NAME DEBUG="$DEBUG"
-dokku config:set --no-restart $APP_NAME DEV_BUILD="$DEV_BUILD"
 {%- if cookiecutter.enable_mailhog == "y" %}
 dokku config:set --no-restart $APP_NAME DEFAULT_FROM_EMAIL="$DEFAULT_FROM_EMAIL"
 dokku config:set --no-restart $APP_NAME EMAIL_BACKEND="$EMAIL_BACKEND"
@@ -199,6 +198,7 @@ dokku config:set --no-restart $APP_NAME EMAIL_PORT="$EMAIL_PORT"
 dokku config:set --no-restart $APP_NAME EMAIL_USE_SSL="$EMAIL_USE_SSL"
 dokku config:set --no-restart $APP_NAME EMAIL_USE_TLS="$EMAIL_USE_TLS"
 {%- endif %}
+dokku config:set --no-restart $APP_NAME ENV_TYPE="$ENV_TYPE"
 dokku config:set --no-restart $APP_NAME SECRET_KEY="$SECRET_KEY"
 {%- if cookiecutter.enable_sentry == "y" %}
 dokku config:set --no-restart $APP_NAME SENTRY_DSN="$SENTRY_DSN"

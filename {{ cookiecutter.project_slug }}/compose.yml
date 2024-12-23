@@ -8,7 +8,7 @@ services:
       context: .
       dockerfile: "Dockerfile"
       args:
-        DEV_BUILD: "true"
+        ENV_TYPE: "development"
     pull_policy: build
     image: {{ cookiecutter.project_slug }}-web:latest
     command: bash -c "/app/bin/release.sh && /app/bin/web.sh"
@@ -35,7 +35,7 @@ services:
       context: .
       dockerfile: "Dockerfile"
       args:
-        DEV_BUILD: "true"
+        ENV_TYPE: "development"
     deploy:
       mode: replicated
       replicas: {{ cookiecutter.celery_workers_local }}

@@ -21,7 +21,6 @@ DATABASE_URL="mysql://mariadb:verysecret@db:3306/dbname"
 DATA_DIR="/data"
 DEBUG="True"
 DEBUG_SQL="True"
-DEV_BUILD="True"
 DJANGO_SETTINGS_MODULE=project.settings
 {%- if cookiecutter.enable_mailhog == "y" %}
 DEFAULT_FROM_EMAIL="root@localhost"
@@ -33,6 +32,7 @@ EMAIL_PORT="1025"
 EMAIL_USE_SSL="False"
 EMAIL_USE_TLS="False"
 {%- endif %}
+ENV_TYPE="development"
 GUNICORN_WORKERS=1
 {%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}
 REDIS_URL="redis://messaging:6379/0"

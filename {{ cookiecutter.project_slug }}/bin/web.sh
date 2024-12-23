@@ -22,7 +22,7 @@ if [[ "$(echo $USE_ASGI | tr a-z A-Z)" = "TRUE" ]]; then
 else
 	APP_MODULE="project.wsgi:application"
 fi
-if [[ $(echo $DEV_BUILD | tr a-z A-Z) = "TRUE" ]]; then
+if [[ $(echo $ENV_TYPE | tr A-Z a-z) = "development" ]]; then
 	extra_reload_opts=$(
 		find -regextype posix-extended -regex '.*\.(html|css|js|jpg|gif|png|svg|ttf|woff|woff2|eot)$' \
 		| while read filename; do

@@ -2,7 +2,7 @@
 FROM {{ cookiecutter.python_image }}:{{ cookiecutter.python_version }}
 
 ENV PYTHONUNBUFFERED=1
-ARG DEV_BUILD
+ARG ENV_TYPE
 WORKDIR /app
 VOLUME /data
 
@@ -42,7 +42,7 @@ RUN pip install --no-cache-dir -U pip
 COPY --chown=django:django requirements.txt /app/
 COPY --chown=django:django requirements-development.txt /app/
 RUN pip install --no-cache-dir -Ur /app/requirements.txt \
-  && if [ "$(echo $DEV_BUILD | tr A-Z a-z)" = "true" ]; then pip install --no-cache-dir -Ur /app/requirements-development.txt; fi
+  && if [ "$(echo $ENV_TYPE | tr A-Z a-z)" = "development" ]; then pip install --no-cache-dir -Ur /app/requirements-development.txt; fi
 
 # Copy all needed files and set permissions
 COPY --chown=django:django . /app/
