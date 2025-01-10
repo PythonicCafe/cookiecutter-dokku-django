@@ -16,7 +16,7 @@ import dj_database_url
 {%- if cookiecutter.enable_sentry == "y" %}
 import sentry_sdk
 {%- endif %}
-from decouple import Csv, config
+from decouple import Choices, Csv, config
 from django.utils.log import DEFAULT_LOGGING
 {%- if cookiecutter.enable_sentry == "y" %}
 from sentry_sdk.integrations.django import DjangoIntegration
@@ -215,6 +215,7 @@ if SENTRY_DSN:
         integrations=[DjangoIntegration()],
         send_default_pii=True,
     )
+    # TODO: add environment
 {%- endif %}
 
 {%- if cookiecutter.enable_django_extensions == "y" %}
