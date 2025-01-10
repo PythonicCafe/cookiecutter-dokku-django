@@ -54,9 +54,9 @@ stop:					# Stop all containers
 	docker compose down
 
 test:					# Execute `pytest` inside `web` container
-	docker compose exec -it web pytest
+	docker compose exec -it web pytest -vvvs
 
-test-v:					# Execute `pytest` with verbose option inside `web` container
-	docker compose exec -it web pytest -vvv
+test-x:					# Execute `pytest` with `-x` option inside `web` container
+	docker compose exec -it web pytest -vvvsx
 
-.PHONY: bash bash-root build clean dbshell fix-permissions help kill lint lint-check logs migrate migrations restart shell start stop test test-v
+.PHONY: bash bash-root build clean dbshell fix-permissions help kill lint lint-check logs migrate migrations restart shell start stop test test-x
