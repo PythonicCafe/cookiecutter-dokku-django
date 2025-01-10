@@ -243,7 +243,7 @@ Aplicação instalada e rodando! Para criar um superusuário no Django:
 ```shell
 dokku run $APP_NAME python manage.py createsuperuser
 ```
-{%- if cookiecutter.enable_minio == "y" -%}
+{% if cookiecutter.enable_minio == "y" %}
 
 ## MinIO
 
