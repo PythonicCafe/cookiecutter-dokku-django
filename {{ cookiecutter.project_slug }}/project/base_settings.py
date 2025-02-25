@@ -163,6 +163,8 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATIC_ROOT = str(BASE_DIR / "collected-static")
 STATICFILES_DIRS = [str(BASE_DIR / "static")]
+for path in STATICFILES_DIRS:
+    Path(path).mkdir(parents=True, exist_ok=True)
 
 # Storage
 STORAGES = {
