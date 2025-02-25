@@ -27,7 +27,12 @@ docker compose exec -it web python manage.py createsuperuser
 Running tests (outside container):
 
 ```shell
-make test  # use test-v for verbose version of pytest
+make test
+```
+
+If you'd like to run just one the tests or pass options to `pytest`, set `TEST_ARGS`:
+```shell
+TEST_ARGS="-k test_run_only_this_one" make test
 ```
 
 Force the Python code style guide/reformat all files (outside container):
