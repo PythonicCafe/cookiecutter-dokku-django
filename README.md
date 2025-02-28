@@ -1,17 +1,31 @@
 # cookiecutter-dokku-django
 
-A [cookiecutter](https://cookiecutter.readthedocs.io/) template for creating a Django app deployed by
+A [cookiecutter](https://cookiecutter.readthedocs.io/) template for creating a Django project with deployment via
 [Dokku](https://dokku.com/) (free/libre platform as a service).
 
-Some highlights:
+Highlights:
 
-- Serves the Django project using gunicorn + whitenoise
-- Run all services locally using [docker compose](https://docs.docker.com/compose/), so no need to create virtualenv,
-  mess with Python versions etc.
-- Single `settings.py` so you won't have conflicts between local and production versions
-- Sane defaults, such as `AutoField` (instead of `BigAutoField`), suppress `DissallowedHost` exception etc.
-- Option to enable celery (+ redis), mailhog
-
+- Base well-configured [Django](https://www.djangoproject.com/) with [PostgreSQL](https://postgres.org/).
+- Efficiently serves Django with [gunicorn](https://gunicorn.org/) and
+  [whitenoise](https://whitenoise.readthedocs.io/), optimizing request handling and static file management.
+- Simplifies local development with [Docker Compose](https://docs.docker.com/compose/), eliminating virtualenv and
+  Python version conflicts, while mirroring production services.
+- Ensures environment consistency with identical `Dockerfile`, services, `settings.py`, and HTTP server across local
+  and production.
+- Provides sensible defaults, like `AutoField` over `BigAutoField` and suppressed `DisallowedHost` errors.
+- Enforces consistent code style with `.editorconfig` (end-of-line, trailing spaces, indentation).
+- Streamlines development with numerous `make` targets for a standardized workflow.
+- Integrates linting with [black](https://black.readthedocs.io/en/stable/), [isort](https://pycqa.github.io/isort/),
+  [autoflake](https://pypi.org/project/autoflake/), and [flake8](https://flake8.pycqa.org/en/latest/).
+- Offers optional service integrations:
+  - [MariaDB](https://mariadb.org/) as an alternative to [PostgreSQL](https://postgres.org/).
+  - [Celery](https://docs.celeryq.dev/en/stable/) for background tasks.
+  - [Redis](https://redis.io/) for task queue and/or cache (considering migrating to [Valkey](https://valkey.io/)
+    because of [licensing
+issues](https://arstechnica.com/information-technology/2024/04/redis-license-change-and-forking-are-a-mess-that-everybody-can-feel-bad-about/)).
+  - [Mailhog](https://github.com/mailhog/MailHog) for local mail testing.
+  - [MinIO](https://min.io/) for object storage.
+- Includes a step-by-step markdown tutorial for [Dokku](https://dokku.com/) deployment.
 
 ## Using
 
@@ -35,7 +49,7 @@ Then, read the created `<project_slug>/README.md` for local development instruct
 
 - [ ] Fix Dokku healthchecks (do not disable) while having `*` not in `ALLOWED_HOSTS` (use `httpHeaders` from
   [docker-container-healthchecker](https://github.com/dokku/docker-container-healthchecker))
-- [ ] Add support for using Ansible with [ansible-dokku](https://github.com/dokku/ansible-dokku)
+- [ ] Add support for using [pydokku](https://github.com/PythonicCafe/pydokku/)
 - [ ] Add a git pre-commit hook to automatically run tests, linter etc.
 - [ ] Add plenty of possible email backends (SMTP, Sendgrid, Mailgun, AWS SES etc.)
 - [ ] Add IMAP container for testing (something like
@@ -45,10 +59,13 @@ Then, read the created `<project_slug>/README.md` for local development instruct
 - [ ] Enhance `.dockerignore`
 - [ ] Pin requirements' versions
 - [ ] Replace `requirements.txt`/`requirements-development.txt` with other dependency file type
+- [ ] Consolidate linter options in `pyproject.toml` or `setup.cfg` to make `lint.sh` more simple (or just use a couple
+  of commands without options inside `Makefile`)
 - [ ] Add option to multistage build when user needs to compile JS/CSS
 - [ ] Translate `docs/deploy.md` to other languages (currently only available in Brazilian Portuguese)
 - [ ] Check things we're missing that other implementations have, like
-  [cookiecutter-django](https://github.com/cookiecutter/cookiecutter-django) and
+  [cookiecutter-django](https://cookiecutter-django.readthedocs.io/en/latest/),
+  [cookiecutter-django-dokku](https://github.com/OpenUpSA/cookiecutter-django-dokku) and
   [django-boilerplate](https://github.com/HBNetwork/django-boilerplate)
 
 
