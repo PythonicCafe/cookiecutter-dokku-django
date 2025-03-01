@@ -14,13 +14,13 @@
 .psql_history
 .python_history
 .sass-cache
+.tags
 .vscode/
 collected-static/
 data/*
 docker/data
 docker/env/*.local
 reg_settings.py
-
 
 # Ignore patterns from <https://github.com/github/gitignore/blob/main/Python.gitignore>
 # Byte-compiled / optimized / DLL files

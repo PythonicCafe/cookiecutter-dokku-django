@@ -1,3 +1,5 @@
+TAGS_FILE = .tags
+
 bash: 					# Run bash inside `web` container
 	docker compose exec -it web bash
 
@@ -8,6 +10,7 @@ build: fix-permissions			# Build containers
 	docker compose build
 
 clean: stop				# Stop and clean orphan containers
+	rm -f $(TAGS_FILE)
 	docker compose down -v --remove-orphans
 
 dbshell: 				# Connect to database shell using `web` container
@@ -53,7 +56,10 @@ start: fix-permissions	# Start all containers in background
 stop:					# Stop all containers
 	docker compose down
 
+tags:					# Generate tags file for the entire project (requires universal-ctags)
+	@git ls-files | ctags -L - --tag-relative=yes --quiet --append -f "$(TAGS_FILE)"
+
 test:					# Execute `pytest` inside `web` container
 	docker compose exec -it web pytest $(TEST_ARGS)
 
-.PHONY: bash bash-root build clean dbshell fix-permissions help kill lint lint-check logs migrate migrations restart shell start stop test
+.PHONY: bash bash-root build clean dbshell fix-permissions help kill lint lint-check logs migrate migrations restart shell start stop tags test
