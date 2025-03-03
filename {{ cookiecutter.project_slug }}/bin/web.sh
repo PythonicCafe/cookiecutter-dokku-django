@@ -5,31 +5,35 @@ set -o pipefail
 set -o nounset
 
 if [ -z ${PORT+x} ]; then
-	PORT=5000
+  PORT=5000
 fi
 if [ -z ${USE_ASGI+x} ]; then
-	USE_ASGI=false
+  USE_ASGI=false
 fi
 if [ -z ${GUNICORN_WORKERS+x} ]; then
-	GUNICORN_WORKERS={{ cookiecutter.gunicorn_workers }}
+  GUNICORN_WORKERS={{ cookiecutter.gunicorn_workers }}
 fi
 
 HOST_PORT="0.0.0.0:$PORT"
 OPTS="--bind=$HOST_PORT --chdir=/app --log-file - --access-logfile - --workers=$GUNICORN_WORKERS"
 if [[ "$(echo $USE_ASGI | tr a-z A-Z)" = "TRUE" ]]; then
-	APP_MODULE="project.asgi:application"
-	OPTS="$OPTS --worker-class uvicorn.workers.UvicornWorker"
+  APP_MODULE="project.asgi:application"
+  OPTS="$OPTS --worker-class uvicorn.workers.UvicornWorker"
 else
-	APP_MODULE="project.wsgi:application"
+  APP_MODULE="project.wsgi:application"
 fi
 if [[ $(echo $ENV_TYPE | tr A-Z a-z) = "development" ]]; then
-	extra_reload_opts=$(
-		find -regextype posix-extended -regex '.*\.(html|css|js|jpg|gif|png|svg|ttf|woff|woff2|eot)$' \
-		| while read filename; do
-			echo "--reload-extra-file $(dirname $filename)";
-		done | sort -u
-	)
-	OPTS="$OPTS --reload $extra_reload_opts"
+  extra_reload_opts=$(
+    find . \
+      -regextype posix-extended \
+      \( -path './docker/data' -o -path './.git' \) -prune \
+      -o \
+      -type f -regex '.*\.(html|css|js|jpg|gif|png|svg|ttf|woff|woff2|eot)$' -print \
+    | while read -r filename; do
+        echo "--reload-extra-file $(dirname "$filename")"
+    done | sort -u
+  )
+  OPTS="$OPTS --reload $extra_reload_opts"
 fi
 
 python manage.py collectstatic --no-input
