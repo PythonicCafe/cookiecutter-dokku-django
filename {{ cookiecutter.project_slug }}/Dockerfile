@@ -41,7 +41,7 @@ RUN --mount=type=cache,target=/var/cache/pip pip install --cache-dir /var/cache/
 # Install app requirements
 COPY --chown=django:django requirements.txt requirements-development.txt /app/
 RUN --mount=type=cache,target=/var/cache/pip pip install --cache-dir /var/cache/pip -Ur /app/requirements.txt \
-  && if [ "$(echo $DEV_BUILD | tr A-Z a-z)" = "true" ]; then pip install --cache-dir /var/cache/pip -Ur /app/requirements-development.txt; fi
+  && if [ "$(echo $ENV_TYPE | tr A-Z a-z)" = "development" ]; then pip install --cache-dir /var/cache/pip -Ur /app/requirements-development.txt; fi
 
 # Copy all needed files and set permissions
 COPY --chown=django:django . /app/
