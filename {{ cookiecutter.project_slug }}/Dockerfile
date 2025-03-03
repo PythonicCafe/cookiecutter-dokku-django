@@ -12,9 +12,12 @@ RUN addgroup --gid ${GID:-1000} django \
   && chown -R django:django /app
 
 # Upgrade and install required system packages
+{%- set base_packages = ['build-essential', 'gettext', 'gnupg', 'make', 'python3-dev', 'wget'] -%}
+{%- set extra_packages = cookiecutter.apt_extra_packages.split() if cookiecutter.get('apt_extra_packages', '') else [] -%}
+{%- set all_packages = (base_packages + extra_packages)|sort|join(' ') %}
 RUN apt update \
   && apt upgrade -y \
-  && apt install --no-install-recommends -y build-essential gettext gnupg make python3-dev wget \
+  && apt install --no-install-recommends -y {{ all_packages }} \
 {%- if cookiecutter.database_software == "postgres" %}
   && echo "deb http://apt.postgresql.org/pub/repos/apt bookworm-pgdg main" > /etc/apt/sources.list.d/pgdg.list \
   && wget --quiet -O /etc/apt/trusted.gpg.d/postgres.asc https://www.postgresql.org/media/keys/ACCC4CF8.asc \
@@ -26,14 +29,6 @@ RUN apt update \
   && apt purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt clean \
   && rm -rf /var/lib/apt/lists/*
-{%- if cookiecutter.apt_extra_packages != "" %}
-RUN apt update \
-  && apt upgrade -y \
-  && apt install --no-install-recommends -y {{ cookiecutter.apt_extra_packages }} \
-  && apt purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
-  && apt clean \
-  && rm -rf /var/lib/apt/lists/*
-{%- endif %}
 
 # Upgrade pip and install (if needed) expensive-to-build, big packages and the ones from other indexes (for caching)
 RUN --mount=type=cache,target=/var/cache/pip pip install --cache-dir /var/cache/pip -U pip
