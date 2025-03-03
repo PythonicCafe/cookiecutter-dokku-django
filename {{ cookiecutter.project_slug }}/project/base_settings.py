@@ -109,10 +109,12 @@ WSGI_APPLICATION = "project.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+DATABASE_CONN_MAX_AGE = config("DATABASE_CONN_MAX_AGE", default=3600, cast=int)  # seconds
 DATABASES = {
-    "default": dj_database_url.config(),
+    "default": dj_database_url.config(conn_max_age=DATABASE_CONN_MAX_AGE),
 }
-DATABASES["default"]["CONN_MAX_AGE"] = config("DATABASE_CONN_MAX_AGE", default=3600, cast=int)  # seconds
+
+
 {%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}
 # Redis
 REDIS_URL = config("REDIS_URL")
