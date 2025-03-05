@@ -28,7 +28,7 @@ if [[ $(echo $ENV_TYPE | tr A-Z a-z) = "development" ]]; then
       -regextype posix-extended \
       \( -path './docker/data' -o -path './.git' \) -prune \
       -o \
-      -type f -regex '.*\.(html|css|js|jpg|gif|png|svg|ttf|woff|woff2|eot)$' -print \
+      -type f -regex '.*\.(html|css|js|jpg|gif|png|svg|ttf|woff|woff2|eot|py)$' -print \
     | while read -r filename; do
         echo "--reload-extra-file $(dirname "$filename")"
     done | sort -u
