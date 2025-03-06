@@ -18,7 +18,7 @@
   "minio_version": "latest",
   "database_software": ["postgres", "mariadb"],
   "postgres_image": "postgres",
-  "postgres_version": "16.3-bookworm",
+  "postgres_version": "17.4-bookworm",
   "postgres_fts_utils": ["y", "n"],
   "mariadb_image": "mariadb",
   "mariadb_version": "11",
@@ -28,6 +28,6 @@
   "redis_image": "redis",
   "redis_version": "6.2-alpine",
   "author": "Your name",
-  "copyright_year": "2023",
+  "copyright_year": "2025",
   "license": ["GPL 3", "LGPL 3", "AGPL 3", "Apache 2.0", "MIT", "BSD", "Closed source"]
 }

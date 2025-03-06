@@ -207,7 +207,7 @@ dokku checks:disable $APP_NAME
 {%- if cookiecutter.database_software == "postgres" %}
 Caso queira alterar a versão do postgres, atualize o arquivo de configuração da versão correspondente executando:
 ```shell
-docker run --rm -v "$(pwd)/docker/conf/db/:/data" postgres:16.3-bookworm cp ./usr/share/postgresql/postgresql.conf.sample /data/postgresql.prd.conf
+docker run --rm -v "$(pwd)/docker/conf/db/:/data" postgres:17.4-bookworm cp ./usr/share/postgresql/postgresql.conf.sample /data/postgresql.prd.conf
 ```
 {%- endif %}
 
