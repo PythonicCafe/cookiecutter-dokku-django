@@ -80,7 +80,9 @@ services:
       - ${PWD}/docker/data/db/:/data/
       - ${PWD}/docker/conf/db/my.cnf:/etc/mysql/my.cnf
     healthcheck:
-      test: ["CMD-SHELL", "/usr/local/bin/healthcheck.sh --su=mysql --connect --innodb_initialized"]
+      test: ["CMD-SHELL", "mariadb -u $$MARIADB_USER --password=$$MARIADB_PASSWORD -e 'SHOW DATABASES'"]
+      interval: 3s
+      retries: 5
 {%- endif %}
 
 {%- if cookiecutter.enable_mailhog == "y" %}

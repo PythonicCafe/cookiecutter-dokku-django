@@ -70,7 +70,7 @@ dokku plugin:install https://github.com/dokku/dokku-letsencrypt.git
 dokku plugin:install https://github.com/dokku/dokku-maintenance.git
 {%- if cookiecutter.database_software == "postgres" %}
 dokku plugin:install https://github.com/dokku/dokku-postgres.git
-{%- elif database_software == "mariadb" %}
+{%- elif cookiecutter.database_software == "mariadb" %}
 dokku plugin:install https://github.com/dokku/dokku-mariadb.git
 {%- endif %}
 {% if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}
@@ -140,7 +140,7 @@ export DATA_DIR="/data"
 export DEBUG="false"
 {%- if cookiecutter.database_software == "postgres" %}
 export DB_NAME="pg_${APP_NAME}"
-{%- elif database_software == "mariadb" %}
+{%- elif cookiecutter.database_software == "mariadb" %}
 export DB_NAME="mdb_${APP_NAME}"
 {%- endif %}
 {% if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}
@@ -172,7 +172,7 @@ dokku postgres:stop $DB_NAME
 scp docker/conf/db/postgresql.prd.conf root@<servidor>:/var/lib/dokku/services/postgres/$DB_NAME/data/postgresql.conf
 dokku postgres:start $DB_NAME
 dokku postgres:link $DB_NAME $APP_NAME
-{%- elif database_software == "mariadb" %}
+{%- elif cookiecutter.database_software == "mariadb" %}
 dokku mariadb:create $DB_NAME -i {{ cookiecutter.mariadb_image }} -I {{ cookiecutter.mariadb_version }} --shm-size {{ cookiecutter.db_shm_size }}
 dokku mariadb:link $DB_NAME $APP_NAME
 {%- endif %}

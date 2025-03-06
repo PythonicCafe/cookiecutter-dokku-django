@@ -23,8 +23,8 @@ RUN apt update \
   && wget --quiet -O /etc/apt/trusted.gpg.d/postgres.asc https://www.postgresql.org/media/keys/ACCC4CF8.asc \
   && apt update \
   && apt install --no-install-recommends -y postgresql-client-17 libpq-dev \
-{%- elif database_software == "mariadb" %}
-                 pkg-config default-libmysqlclient-dev \
+{%- elif cookiecutter.database_software == "mariadb" %}
+                 default-libmysqlclient-dev mariadb-client pkg-config \
 {%- endif %}
   && apt purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt clean \
