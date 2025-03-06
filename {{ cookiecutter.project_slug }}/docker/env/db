@@ -2,6 +2,7 @@
 
 {%- if cookiecutter.database_software == "postgres" %}
 POSTGRES_PASSWORD="verysecret"
+PGDATA="/data/db-data/"
 {%- elif cookiecutter.database_software == "mariadb" %}
 MARIADB_USER="mariadb"
 MARIADB_PASSWORD="verysecret"

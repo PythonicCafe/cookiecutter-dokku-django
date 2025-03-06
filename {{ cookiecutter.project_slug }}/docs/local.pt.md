@@ -37,8 +37,10 @@ antiga era `postgres:15-bullseye`, adicione o seguinte:
   olddb:
     image: "postgres:15-bullseye"
     env_file:
-      - "docker/env/olddb"
-      - "docker/env/olddb.local"
+      - path: "docker/env/olddb"
+        required: true
+      - path: "docker/env/olddb.local"
+        required: false
     user: "${UID:-1000}:${GID:-1000}"
     shm_size: "4g"
     command: -c "config_file=/etc/postgresql/postgresql.conf"
