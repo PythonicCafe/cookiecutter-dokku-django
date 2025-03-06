@@ -6,7 +6,8 @@ bash: 					# Run bash inside `web` container
 bash-root: 				# Run bash as root inside `web` container
 	docker compose exec -itu root web bash
 
-build:					# Build containers
+build:					# Build containers and pull images
+	docker compose pull
 	docker compose build
 
 clean: stop				# Stop and clean orphan containers
@@ -52,7 +53,7 @@ stop:					# Stop all containers
 tags:					# Generate tags file for the entire project (requires universal-ctags)
 	@git ls-files | ctags -L - --tag-relative=yes --quiet --append -f "$(TAGS_FILE)"
 
-test:					# Execute `pytest` inside `web` container
-	docker compose exec -it web pytest $(TEST_ARGS)
+test			:		# Execute `pytest` and coverage report inside `web` container
+	docker compose exec -it web bash -c 'coverage run -m pytest $(TEST_ARGS) && coverage report'
 
 .PHONY: bash bash-root build clean dbshell help kill lint lint-check logs migrate migrations restart shell start stop tags test
