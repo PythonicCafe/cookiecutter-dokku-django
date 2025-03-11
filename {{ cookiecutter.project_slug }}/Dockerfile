@@ -2,7 +2,6 @@
 FROM {{ cookiecutter.python_image }}:{{ cookiecutter.python_version }}
 
 ENV PYTHONUNBUFFERED=1
-ARG ENV_TYPE
 WORKDIR /app
 VOLUME /data
 
@@ -35,8 +34,13 @@ RUN --mount=type=cache,target=/var/cache/pip pip install --cache-dir /var/cache/
 
 # Install app requirements
 COPY --chown=django:django requirements.txt requirements-development.txt /app/
-RUN --mount=type=cache,target=/var/cache/pip pip install --cache-dir /var/cache/pip -Ur /app/requirements.txt \
-  && if [ "$(echo $ENV_TYPE | tr A-Z a-z)" = "development" ]; then pip install --cache-dir /var/cache/pip -Ur /app/requirements-development.txt; fi
+RUN --mount=type=cache,target=/var/cache/pip pip install --cache-dir /var/cache/pip -Ur /app/requirements.txt
+ARG ENV_TYPE=production
+RUN --mount=type=cache,target=/var/cache/pip if [ "$(echo $ENV_TYPE | tr A-Z a-z)" = "development" ]; then \
+    pip install --cache-dir /var/cache/pip -Ur /app/requirements-development.txt; \
+  else \
+    rm /app/requirements-development.txt; \
+  fi
 
 # Copy all needed files and set permissions
 COPY --chown=django:django . /app/
