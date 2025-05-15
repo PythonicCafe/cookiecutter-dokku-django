@@ -10,6 +10,10 @@ build:					# Build containers and pull images
 	docker compose pull
 	docker compose build
 
+build-no-cache:			# Build containers without using cache
+	docker compose pull
+	docker compose build --no-cache
+
 clean: stop				# Stop and clean orphan containers
 	rm -f $(TAGS_FILE)
 	docker compose down -v --remove-orphans
@@ -56,4 +60,4 @@ tags:					# Generate tags file for the entire project (requires universal-ctags)
 test			:		# Execute `pytest` and coverage report inside `web` container
 	docker compose exec -it web bash -c 'coverage run -m pytest $(TEST_ARGS) && coverage report'
 
-.PHONY: bash bash-root build clean dbshell help kill lint lint-check logs migrate migrations restart shell start stop tags test
+.PHONY: bash bash-root build build-no-cache clean dbshell help kill lint lint-check logs migrate migrations restart shell start stop tags test
