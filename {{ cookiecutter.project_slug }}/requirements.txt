@@ -22,6 +22,6 @@ python-decouple >= 3.8, < 4.0
 django-redis >= 5.4.0, < 6.0.0
 {%- endif %}
 {%- if cookiecutter.enable_sentry == "y" %}
-sentry-sdk >= 1.45.0, < 2.0.0
+https://github.com/turicas/sentry-python/archive/1.45.2.zip
 {%- endif %}
 whitenoise >= 6.6.0, < 7.0.0

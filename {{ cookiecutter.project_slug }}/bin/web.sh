@@ -43,5 +43,8 @@ if [[ $(echo $ENV_TYPE | tr A-Z a-z) = "development" ]]; then
   OPTS="$OPTS --reload $extra_reload_opts"
 fi
 
+echo "Collecting static files"
 python manage.py collectstatic --no-input
+
+echo "Starting Web server"
 gunicorn $OPTS $APP_MODULE
