@@ -1,3 +1,6 @@
+import json
+import sys
+
 from sentry_sdk import Scope, capture_message
 
 
