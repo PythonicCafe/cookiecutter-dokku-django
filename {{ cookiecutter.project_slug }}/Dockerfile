@@ -6,7 +6,7 @@ WORKDIR /app
 VOLUME /data
 
 # Create a non-root user to run the app
-RUN addgroup --gid ${GID:-1000} django \
+RUN groupadd --gid ${GID:-1000} django \
   && adduser --disabled-password --gecos "" --home /app --uid ${UID:-1000} --gid ${GID:-1000} django \
   && chown -R django:django /app
 
