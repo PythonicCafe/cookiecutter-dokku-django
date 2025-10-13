@@ -29,5 +29,7 @@
   "redis_version": "6.2-alpine",
   "author": "Your name",
   "copyright_year": "2025",
-  "license": ["GPL 3", "LGPL 3", "AGPL 3", "Apache 2.0", "MIT", "BSD", "Closed source"]
+  "license": ["GPL 3", "LGPL 3", "AGPL 3", "Apache 2.0", "MIT", "BSD", "Closed source"],
+  "use_openai_client": ["y", "n"],
+  "use_hugging_face": ["y", "n"]
 }

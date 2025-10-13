@@ -43,6 +43,17 @@ if [[ $(echo $ENV_TYPE | tr A-Z a-z) = "development" ]]; then
   OPTS="$OPTS --reload $extra_reload_opts"
 fi
 
+{% if cookiecutter.use_openai_client == "y" %}
+# Persist cache among containers
+export TIKTOKEN_CACHE_DIR="/data/cache/tiktoken"
+mkdir -p "$TIKTOKEN_CACHE_DIR"
+{% endif %}
+
+{% if cookiecutter.use_hugging_face == "y" %}
+export HF_HUB_CACHE="/data/cache/hf-models/"
+mkdir -p "$HF_HUB_CACHE"
+{% endif %}
+
 echo "Collecting static files"
 python manage.py collectstatic --no-input
 

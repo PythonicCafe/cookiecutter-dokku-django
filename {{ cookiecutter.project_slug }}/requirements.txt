@@ -11,7 +11,13 @@ django-storages[s3] >= 1.14.3, < 2.0.0
 {%- endif %}
 Django >= 4.2, < 4.3
 gunicorn >= 22.0.0, < 23.0.0
+{%- if cookiecutter.hugging_face == "y" %}
+huggingface-hub >= 0.35.3, < 0.36.0
+{%- endif %}
 ipython >= 8.24.0, < 9.0.0  # for enhanced Django shell
+{%- if cookiecutter.use_openai_client == "y" %}
+openai >= 1.97.1, < 2.0.0
+{%- endif %}
 {%- if cookiecutter.database_software == "postgres" %}
 psycopg2-binary >= 2.9.9, < 3.0.0
 {%- elif cookiecutter.database_software == "mariadb" %}
