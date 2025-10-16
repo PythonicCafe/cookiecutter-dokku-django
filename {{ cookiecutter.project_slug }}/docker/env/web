@@ -35,10 +35,16 @@ EMAIL_TIMEOUT="15"
 {%- endif %}
 ENV_TYPE="development"
 GUNICORN_WORKERS=1
+{%- if cookiecutter.use_hugging_face == "y" %}
+HF_HUB_CACHE="/data/cache/hf-models/"
+{%- endif %}
 {%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}
 REDIS_URL="redis://messaging:6379/0"
 {%- endif %}
 SECRET_KEY="12345qwert67890yuiop12345qwert67890yuiop12345qwert67890yuiop12345qwert67890yuiop"
 {%- if cookiecutter.enable_sentry == "y" %}
 SENTRY_DSN=""
+{%- endif %}
+{%- if cookiecutter.use_openai_client == "y" %}
+TIKTOKEN_CACHE_DIR="/data/cache/tiktoken"
 {%- endif %}

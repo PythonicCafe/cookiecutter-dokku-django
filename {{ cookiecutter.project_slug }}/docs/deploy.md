@@ -132,6 +132,12 @@ export EMAIL_USE_TLS="..."
 export EMAIL_TIMEOUT="15"
 {% endif %}
 export ENV_TYPE="production" # Or 'staging'
+{%- if cookiecutter.use_hugging_face == "y" %}
+export HF_HUB_CACHE="/data/cache/hf-models/"
+{%- endif %}
+{%- if cookiecutter.use_openai_client == "y" %}
+export TIKTOKEN_CACHE_DIR="/data/cache/tiktoken"
+{%- endif %}
 
 export LETSENCRYPT_EMAIL="$(echo $ADMINS | sed 's/^[^|]*|\([^,]*\).*$/\1/')"
 export ALLOWED_HOSTS="$APP_DOMAINS"
@@ -201,6 +207,12 @@ dokku config:set --no-restart $APP_NAME ENV_TYPE="$ENV_TYPE"
 dokku config:set --no-restart $APP_NAME SECRET_KEY="$SECRET_KEY"
 {%- if cookiecutter.enable_sentry == "y" %}
 dokku config:set --no-restart $APP_NAME SENTRY_DSN="$SENTRY_DSN"
+{%- endif %}
+{%- if cookiecutter.use_hugging_face == "y" %}
+dokku config:set --no-restart $APP_NAME HF_HUB_CACHE="$HF_HUB_CACHE"
+{%- endif %}
+{%- if cookiecutter.use_openai_client == "y" %}
+dokku config:set --no-restart $APP_NAME TIKTOKEN_CACHE_DIR="$TIKTOKEN_CACHE_DIR"
 {%- endif %}
 dokku checks:disable $APP_NAME
 ```
