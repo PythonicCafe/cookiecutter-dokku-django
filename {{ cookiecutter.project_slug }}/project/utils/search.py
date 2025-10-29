@@ -1,5 +1,4 @@
 from django.contrib.postgres.search import SearchHeadline, SearchQuery, SearchRank
-from django.db.models import F
 
 # TODO: we may want to get the available languages by running the query in the current database
 # Mapping created from joining results of `SELECT cfgname FROM pg_ts_config`
@@ -63,7 +62,7 @@ class SearchQuerySetMixin:
         elif language not in AVAILABLE_LANGUAGES:
             raise ValueError(f"Unknown language for postgres: {repr(language)}")
 
-        config=f"pg_catalog.{language}"
+        config = f"pg_catalog.{language}"
         query = SearchQuery(term, config=config, search_type="websearch")
         qs = self.filter(search_vector=query)
         qs = qs.annotate(search_rank=SearchRank(search_vector, query, normalization=normalization))

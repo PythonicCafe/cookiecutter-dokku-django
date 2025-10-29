@@ -3,13 +3,14 @@ import logging
 import pickle
 import threading
 import time
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 from celery import Task
 from django.conf import settings
 from django.core.cache import caches
 
 logger = logging.getLogger(__name__)
+
 
 class LockedTask(Task):
     """A Celery Task subclass that prevents concurrent execution of tasks with identical arguments.
@@ -49,6 +50,7 @@ class LockedTask(Task):
     - Skipped tasks (due to lock) are not automatically rescheduled. Implement custom logic if
       rescheduling is required for your use case.
     """
+
     abstract = True
 
     def __init__(self) -> None:

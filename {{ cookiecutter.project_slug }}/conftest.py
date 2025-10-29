@@ -1,7 +1,5 @@
 import os
 
-import pytest
-
 
 def pytest_collect_file(filename, parent):
     """Hook to intercept pytest file collect"""
