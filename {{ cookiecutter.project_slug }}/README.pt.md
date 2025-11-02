@@ -49,12 +49,6 @@ Dessa forma, evitamos colocar credenciais e outros dados sensíveis no repositó
 > defina pelo menos um valor fictício no arquivo principal, para que todos consigam executar corretamente.
 
 
-## Serviços
-
-Os serviços configurados no Docker compose são:
-
-
-
 ## Backup
 
 Você pode precisar fazer backup das seguintes pastas (ou as equivalentes em produção):
