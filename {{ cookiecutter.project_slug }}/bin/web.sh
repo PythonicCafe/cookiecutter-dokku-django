@@ -43,9 +43,8 @@ if [[ $(echo $ENV_TYPE | tr A-Z a-z) = "development" ]]; then
   OPTS="$OPTS --reload $extra_reload_opts"
 fi
 
-{% if cookiecutter.use_openai_client == "y" or cookiecutter.use_hugging_face %}
+{% if cookiecutter.use_openai_client == "y" or cookiecutter.use_hugging_face == "y" %}
 # Persist cache among containers
-{% endif %}
 {% if cookiecutter.use_openai_client == "y" %}
 TT_CACHE=${TIKTOKEN_CACHE_DIR:-}  # Avoid "unbound variable" error
 if [[ ! -z "$TT_CACHE" ]] && [[ ! -e "$TT_CACHE" ]]; then
@@ -57,6 +56,7 @@ HF_CACHE=${HF_HUB_CACHE:-}  # Avoid "unbound variable" error
 if [[ ! -z "$HF_CACHE" ]] && [[ ! -e "$HF_CACHE" ]]; then
   mkdir -p "$HF_CACHE"
 fi
+{% endif %}
 {% endif %}
 
 echo "Collecting static files"
