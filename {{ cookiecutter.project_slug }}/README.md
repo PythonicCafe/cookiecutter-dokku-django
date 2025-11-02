@@ -1,5 +1,11 @@
 # {{ cookiecutter.project_slug }}
 
+This project and all required services (as the database) run inside Docker containers. You'll need Docker, Docker
+compose and make to run locally.
+
+There are other ways to run the project locally (such as executing Django inside a virtualenv on the host machine), but
+it's recommended to run the way described in this document to simplify the process and avoid version conflicts.
+
 You need docker compose to run this project.
 
 Running all services:
@@ -7,6 +13,9 @@ Running all services:
 ```shell
 make start logs
 ```
+
+> Note: the first time the command above is executed, it will take a few minutes because it will build the Docker image
+> that runs Django and download the other images/dependencies. Subsequent runs will be much faster.
 
 To access Django, go to [localhost:5000](http://localhost:5000). The `web` Docker compose service will automatically
 execute the migrations before starting the HTTP server, so the system will be ready to be used.
@@ -44,6 +53,10 @@ For each service we have a default environment file named `docker/env/<service>`
 default variables, create a file `docker/env/<service>.local` and put them there. This file will be ignored by Git and
 docker compose will load it right after the default one (overwriting the values with your version).  This way we avoid
 adding credentials and other sensitive data to the repository.
+
+**Warning**: don't forget to run `make restart` for the environment variable changes to take effect (it's not enough to
+restart only the container of the service whose variables were changed - you need to restart the entire Docker Compose
+setup).
 
 > Note: if you need to add a new environment variable that will be used by the whole team, define at least a dummy
 > value in the main env file for the service, so everyone can run the system correctly.

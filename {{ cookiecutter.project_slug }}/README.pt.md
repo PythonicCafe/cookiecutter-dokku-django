@@ -1,12 +1,19 @@
 # {{ cookiecutter.project_slug }}
 
-Você precisará de docker, docker compose e make para executar corretamente esse projeto.
+O projeto e todos os serviços necessários (como bancos de dados) rodam completamente dentro de _containers_ Docker.
+Para rodá-lo localmente, você precisará de docker, docker compose e make.
+
+Apesar de existirem outras formas de rodar o projeto localmente (como executando o Django em um virtualenv),
+recomendamos utilizar a forma descrita nesse documento, para simplificar o processo e evitar conflitos de versões.
 
 Rodando todos os serviços:
 
 ```shell
 make start logs
 ```
+
+> Nota: a primeira vez que o comando acima for executado irá demorar alguns minutos, pois irá construir a imagem Docker
+> que executará o Django e baixará as demais imagens/dependências. As próximas vezes serão bem mais rápidas.
 
 Para acessar o Django, entre em [localhost:5000](http://localhost:5000). O serviço `web` do docker compose irá executar
 as migrações antes de iniciar o servidor HTTP, então o sistema já estará pronto para usar (mas ainda sem dados).
@@ -45,6 +52,10 @@ você precisa trocar qualquer um dos valores padrão, crie um arquivo chamado `d
 lá. Esse arquivo será ignorado pelo Git e o Docker compose irá carregá-lo após o primeiro, sobrescrevendo os valores.
 Dessa forma, evitamos colocar credenciais e outros dados sensíveis no repositório.
 
+**Atenção**: não se esqueça de executar `make restart` para que a mudança nas variáveis de ambiente faça efeito (não
+adianta reiniciar apenas o container do serviço que teve variáveis alteradas, é preciso reiniciar o docker compose
+completamente).
+
 > Nota: caso você precise adicionar alguma variável de ambiente que será usada por todos da equipe obrigatoriamente,
 > defina pelo menos um valor fictício no arquivo principal, para que todos consigam executar corretamente.
 
@@ -64,21 +75,21 @@ Você pode precisar fazer backup das seguintes pastas (ou as equivalentes em pro
 Os serviços configurados no Docker compose são:
 
 - `web`: container principal da aplicação Web, rodando o Django e acessível por
-  [localhost:5000](http://localhost:5000/)
+  [localhost:5000](http://localhost:5000/);
 {%- if cookiecutter.enable_celery == "y" %}
-- `worker`: utiliza a mesma imagem do container acima, mas executa o worker do Celery (em vez do servidor HTTP), para
-  processar as tarefas em segundo plano
+- `worker`: utiliza a mesma imagem do container `web`, mas executa o worker do Celery (em vez do servidor HTTP), para
+  processar as tarefas em segundo plano;
 {%- endif %}
-- `db`: database container, without port forwarding from the host machine (you can connect to the database shell by
-  running `docker compose exec web python manage.py dbshell`)
+- `db`: executa o banco de dados, sem encaminhamento de porta da máquina host (você pode conectar ao shell do banco
+  executando `make dbshell` ou `docker compose exec web python manage.py dbshell`);
 {%- if cookiecutter.enable_mailhog == "y" %}
-- `mail`: Mailhog container, acessible through [localhost:8025](http://localhost:8025)
+- `mail`: executa o Mailhog (para verificar os emails enviados), acessível em [localhost:8025](http://localhost:8025/);
 {%- endif %}
 {%- if cookiecutter.enable_redis == "y" %}
-- `messaging`: redis container, without port forwarding from the host machine (you can connect to it by running
-  `docker compose exec messaging redis-cli`)
+- `messaging`: executa o Redis (para cache e fila de tarefas), sem encaminhamento de porta da máquina host (você pode
+  conectar-se a ele executando `docker compose exec messaging redis-cli`);
 {%- endif %}
 {%- if cookiecutter.enable_minio == "y" %}
-- `storage`: MinIO container, acessible through [localhost:9000](http://localhost:9000/) (API) and
-  [localhost:9001](http://localhost:9001/) (console)
+- `storage`: executa o MinIO (equivalente ao AWS S3), acessível em [localhost:9000](http://localhost:9000/) (API) e
+  [localhost:9001](http://localhost:9001/) (console).
 {%- endif %}
