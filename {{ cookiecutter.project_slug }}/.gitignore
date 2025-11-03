@@ -16,11 +16,15 @@
 .sass-cache
 .tags
 .vscode/
+.wget-hsts
 collected-static/
 data/*
-docker/data
+docker/data/**
+!docker/data/**/
+!docker/data/*/.keepdir
 docker/env/*.local
 reg_settings.py
+
 
 # Ignore patterns from <https://github.com/github/gitignore/blob/main/Python.gitignore>
 # Byte-compiled / optimized / DLL files
