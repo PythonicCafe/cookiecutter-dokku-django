@@ -27,15 +27,16 @@ else
 fi
 if [[ $(echo $ENV_TYPE | tr A-Z a-z) = "development" ]]; then
   extra_reload_opts=$(
-    find . -type f \
-      \( \
-        ! -path "./docker/data/*" \
-        ! -path "./.git/*" \
-        ! -path "./frontend/*" \
-        ! -path "./.local/*" \
-        ! -path "./.cache/*" \
-      \) \
+    find . \( \
+        -path './docker' -o \
+        -path './.git' -o \
+        -path './frontend' -o \
+        -path './.local' -o \
+        -path './.cache' \
+      \) -prune -o \
+      -type f \
       -regex '.*\.\(html\|css\|js\|jpg\|gif\|png\|svg\|ttf\|woff\|woff2\|eot\|py\|json\)$' \
+      -print \
     | while read -r filename; do
         echo "--reload-extra-file $(dirname "$filename")"
     done | sort -u
