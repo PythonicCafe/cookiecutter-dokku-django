@@ -1,6 +1,6 @@
 {%- if cookiecutter.enable_celery == "y" %}
-celery
-django-celery-results
+celery >= 5.6.0rc1, < 6.0.0
+django-celery-results >= 2.6.0, < 3.0.0
 {%- endif %}
 dj-database-url >= 2.1.0, < 3.0.0
 {%- if cookiecutter.enable_django_extensions == "y" %}

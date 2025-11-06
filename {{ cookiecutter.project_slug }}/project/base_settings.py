@@ -123,11 +123,17 @@ REDIS_URL = config("REDIS_URL")
 {%- endif %}
 {%- if cookiecutter.enable_celery == "y" %}
 # Celery
+# Check details in: <https://docs.celeryq.dev/en/stable/userguide/configuration.html>
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 CELERY_BROKER_URL = REDIS_URL
 CELERY_RESULT_BACKEND = "django-db"
 CELERY_RESULT_EXTENDED = True
 CELERY_TASK_TRACK_STARTED = True
+CELERY_WORKER_CONCURRENCY = 2  # Number of children per worker
+CELERY_WORKER_DISABLE_PREFETCH = True  # Consume tasks only when there's a child available to execute it
+CELERY_WORKER_MAX_MEMORY_PER_CHILD = 256 * 1024 # 256MB (in KiB)
+CELERY_WORKER_MAX_TASKS_PER_CHILD = 20  # Max tasks per child worker before restart (avoid memory leaks)
+CELERY_WORKER_POOL = "prefork"  # Use processes as task executors
 
 {%- endif %}
 
