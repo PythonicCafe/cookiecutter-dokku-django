@@ -248,6 +248,9 @@ dokku ps:scale $APP_NAME web={{ cookiecutter.dokku_web_workers }}
 {% if cookiecutter.enable_celery == "y" %}
 dokku ps:scale $APP_NAME worker={{ cookiecutter.celery_workers_production }}
 {% endif %}
+{% if cookiecutter.enable_mailhog == "y" %}
+dokku ps:scale $APP_NAME mail-worker=1
+{% endif %}
 ```
 
 Aplicação instalada e rodando! Para criar um superusuário no Django:

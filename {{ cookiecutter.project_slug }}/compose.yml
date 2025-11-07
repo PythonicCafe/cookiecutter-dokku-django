@@ -31,12 +31,21 @@ services:
       - 5000:5000
 
 {%- if cookiecutter.enable_celery == "y" %}
+
   worker:
     <<: *web-common
     deploy:
       mode: replicated
       replicas: {{ cookiecutter.celery_workers_local }}
     command: /app/bin/worker.sh
+
+{%- endif %}
+{%- if cookiecutter.enable_mailhog == "y" %}
+
+  mail-worker:
+    <<: *web-common
+    command: /app/bin/mail-worker.sh
+
 {%- endif %}
 
   db:
@@ -68,6 +77,7 @@ services:
 {%- endif %}
 
 {%- if cookiecutter.enable_mailhog == "y" %}
+
   mail:
     env_file:
       - path: "docker/env/mail"
@@ -83,6 +93,7 @@ services:
 {%- endif %}
 
 {%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}
+
   messaging:
     env_file:
       - path: "docker/env/messaging"
@@ -96,6 +107,7 @@ services:
 {%- endif %}
 
 {%- if cookiecutter.enable_minio == "y" %}
+
   storage:
     env_file:
       - path: "docker/env/storage"

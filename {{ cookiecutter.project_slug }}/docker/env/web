@@ -24,7 +24,6 @@ DEBUG_SQL="True"
 DJANGO_SETTINGS_MODULE=project.settings
 {%- if cookiecutter.enable_mailhog == "y" %}
 DEFAULT_FROM_EMAIL="root@localhost"
-EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST="mail"
 EMAIL_HOST_PASSWORD=""
 EMAIL_HOST_USER=""

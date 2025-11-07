@@ -23,6 +23,10 @@ from django.utils.log import DEFAULT_LOGGING
 {%- if cookiecutter.enable_sentry == "y" %}
 from sentry_sdk.integrations.django import DjangoIntegration
 {%- endif %}
+{%- if cookiecutter.enable_mailhog == "y" %}
+
+from project.utils import int_or_None
+{%- endif %}
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -61,6 +65,9 @@ INSTALLED_APPS = [
 {%- endif  %}
 {%- if cookiecutter.enable_django_extensions == "y" %}
     "django_extensions",
+{%- endif %}
+{%- if cookiecutter.enable_mailhog == "y" %}
+    "mailer",
 {%- endif %}
 {%- if cookiecutter.enable_minio == "y" %}
     "storages",
@@ -206,18 +213,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 LOGGING = DEFAULT_LOGGING.copy()
 LOGGING["handlers"]["null"] = {"class": "logging.NullHandler"}
 LOGGING["loggers"]["django.security.DisallowedHost"] = {"handlers": ["null"], "propagate": False}
-
-{%- if cookiecutter.enable_mailhog == "y" %}
-EMAIL_BACKEND = config("EMAIL_BACKEND", default="django.core.mail.backends.smtp.EmailBackend")
-EMAIL_HOST = config("EMAIL_HOST")
-EMAIL_HOST_USER = config("EMAIL_HOST_USER", default="")
-EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="")
-EMAIL_PORT = config("EMAIL_PORT", cast=int, default=25)
-EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool, default=False)
-EMAIL_USE_SSL = config("EMAIL_USE_SSL", cast=bool, default=False)
-EMAIL_TIMEOUT = config("EMAIL_TIMEOUT", cast=int, default=15)
-DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
-
+{%- if cookiecutter.enable_django_extensions == "y" %}
+SHELL_PLUS_PRINT_SQL_TRUNCATE = config("SHELL_PLUS_PRINT_SQL_TRUNCATE", cast=int, default=999_999)
 {%- endif %}
 {%- if cookiecutter.enable_sentry == "y" %}
 SENTRY_DSN = config("SENTRY_DSN", default=None)
@@ -230,6 +227,21 @@ if SENTRY_DSN:
     # TODO: add environment
 {%- endif %}
 
-{%- if cookiecutter.enable_django_extensions == "y" %}
-SHELL_PLUS_PRINT_SQL_TRUNCATE = config("SHELL_PLUS_PRINT_SQL_TRUNCATE", cast=int, default=999_999)
+{%- if cookiecutter.enable_mailhog == "y" %}
+
+# Email
+DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
+EMAIL_BACKEND = "mailer.backend.DbBackend"
+EMAIL_HOST = config("EMAIL_HOST")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="")
+EMAIL_HOST_USER = config("EMAIL_HOST_USER", default="")
+EMAIL_PORT = config("EMAIL_PORT", cast=int, default=25)
+EMAIL_TIMEOUT = config("EMAIL_TIMEOUT", cast=int, default=15)
+EMAIL_USE_SSL = config("EMAIL_USE_SSL", cast=bool, default=False)
+EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool, default=False)
+MAILER_EMAIL_MAX_BATCH = config("MAILER_EMAIL_MAX_BATCH", cast=int_or_None, default=None)
+MAILER_EMAIL_MAX_DEFERRED = config("MAILER_EMAIL_MAX_DEFERRED", cast=int_or_None, default=None)
+MAILER_EMAIL_MAX_RETRIES = config("MAILER_EMAIL_MAX_RETRIES", cast=int_or_None, default=None)
+MAILER_EMAIL_THROTTLE = config("MAILER_EMAIL_THROTTLE", cast=int_or_None, default=0)  # Seconds to sleep after sending an email
+MAILER_USE_FILE_LOCK = False
 {%- endif %}

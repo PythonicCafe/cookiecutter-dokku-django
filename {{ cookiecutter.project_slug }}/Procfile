@@ -3,3 +3,6 @@ release: /app/bin/release.sh
 {%- if cookiecutter.enable_celery == "y" %}
 worker: /app/bin/worker.sh
 {%- endif %}
+{%- if cookiecutter.enable_mailhog == "y" %}
+mail-worker: /app/bin/mail-worker.sh
+{%- endif %}
