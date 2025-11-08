@@ -37,7 +37,7 @@ cookiecutter gh:PythonicCafe/cookiecutter-dokku-django
 # answer the questions :)
 cd <project_slug>
 git init .
-git add .
+git add -f .  # The only possible occasion where you're allowed to execute this command
 git commit -m "First commit"
 ```
 
