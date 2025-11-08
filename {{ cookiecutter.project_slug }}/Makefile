@@ -6,6 +6,7 @@ else
 endif
 COMPOSE = docker compose
 COMPOSE_EXEC = $(COMPOSE) exec $(DOCKER_EXEC_FLAGS)
+CI_SERVICES = db {% if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}messaging{% endif %} {% if cookiecutter.enable_minio == "y" %}storage{% endif %}
 
 bash: 					# Run bash inside `web` container
 	$(COMPOSE_EXEC) web bash
@@ -16,6 +17,14 @@ bash-root: 				# Run bash as root inside `web` container
 build:					# Build containers and pull images
 	$(COMPOSE) pull
 	$(COMPOSE) build
+
+build-ci:
+	# Remove definition of user as stated in <https://docs.github.com/en/actions/reference/workflows-and-actions/dockerfile-support#user>
+	sed -i '/^\s\?USER/d' Dockerfile
+	sed -i '/# Create a non-root user to run the app/,/&& chown -R django:django \/app/d' Dockerfile
+	sed -i '/^\s\+user:/d' compose.yml
+	$(COMPOSE) pull $(CI_SERVICES)
+	$(COMPOSE) build web
 
 build-no-cache:			# Build containers without using cache
 	$(COMPOSE) pull
@@ -40,6 +49,9 @@ lint:					# Run linter script
 
 lint-check:				# Run the linter without changing files
 	$(COMPOSE_EXEC) web /app/lint.sh --check
+
+lint-check-ci:
+	$(COMPOSE) run --rm web bash -c '/app/lint.sh --check'
 
 logs:					# Show all containers' logs (tail)
 	$(COMPOSE) logs -tf
@@ -67,4 +79,8 @@ tags:					# Generate tags file for the entire project (requires universal-ctags)
 test:					# Execute `pytest` and coverage report inside `web` container
 	$(COMPOSE_EXEC) web bash -c 'coverage run -m pytest $(TEST_ARGS) && coverage report'
 
-.PHONY: bash bash-root build build-no-cache clean dbshell help kill lint lint-check logs migrate migrations restart shell start stop tags test
+test-ci:
+	$(COMPOSE) up -d $(CI_SERVICES)
+	$(COMPOSE) run --rm web bash -c 'python manage.py create_buckets && coverage run -m pytest $(TEST_ARGS) && coverage report'
+
+.PHONY: bash bash-root build build-ci build-no-cache clean dbshell help kill lint lint-check link-check-ci logs migrate migrations restart shell start stop tags test test-ci

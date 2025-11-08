@@ -28,7 +28,6 @@ from sentry_sdk.integrations.django import DjangoIntegration
 from project.utils import int_or_None
 {%- endif %}
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -242,6 +241,8 @@ EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool, default=False)
 MAILER_EMAIL_MAX_BATCH = config("MAILER_EMAIL_MAX_BATCH", cast=int_or_None, default=None)
 MAILER_EMAIL_MAX_DEFERRED = config("MAILER_EMAIL_MAX_DEFERRED", cast=int_or_None, default=None)
 MAILER_EMAIL_MAX_RETRIES = config("MAILER_EMAIL_MAX_RETRIES", cast=int_or_None, default=None)
-MAILER_EMAIL_THROTTLE = config("MAILER_EMAIL_THROTTLE", cast=int_or_None, default=0)  # Seconds to sleep after sending an email
+MAILER_EMAIL_THROTTLE = config(
+    "MAILER_EMAIL_THROTTLE", cast=int_or_None, default=0
+)  # Seconds to sleep after sending an email
 MAILER_USE_FILE_LOCK = False
 {%- endif %}

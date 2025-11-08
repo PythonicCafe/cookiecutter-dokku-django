@@ -1,0 +1,30 @@
+name: Django CI
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      DB_SHM_SIZE: 1g
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Build
+      run: |
+        make build-ci
+
+    - name: Start containers and run tests
+      run: make test-ci
+
+    - name: Linter check
+      run: make lint-check-ci
+
+    - name: Cleanup
+      if: always()
+      run: make clean
