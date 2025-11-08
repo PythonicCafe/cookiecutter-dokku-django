@@ -196,7 +196,9 @@ AWS_S3_ENDPOINT_URL = config("AWS_S3_ENDPOINT_URL")  # This is the server to con
 AWS_S3_ACCESS_KEY_ID = config("AWS_S3_ACCESS_KEY_ID")
 AWS_S3_SECRET_ACCESS_KEY = config("AWS_S3_SECRET_ACCESS_KEY")
 AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
-AWS_S3_CUSTOM_DOMAIN = config("AWS_S3_CUSTOM_DOMAIN", default=None)  # This is the base URL used when creating  links to files
+AWS_S3_CUSTOM_DOMAIN = config(
+    "AWS_S3_CUSTOM_DOMAIN", default=None
+)  # This is the base URL used when creating links to files
 AWS_S3_URL_PROTOCOL = config("AWS_S3_URL_PROTOCOL", default="https:")
 AWS_AUTO_CREATE_BUCKET = True
 AWS_QUERYSTRING_AUTH = False
@@ -229,7 +231,7 @@ if SENTRY_DSN:
 {%- if cookiecutter.enable_mailhog == "y" %}
 
 # Email
-DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
+DEFAULT_FROM_EMAIL = SERVER_EMAIL = config("DEFAULT_FROM_EMAIL")
 EMAIL_BACKEND = "mailer.backend.DbBackend"
 EMAIL_HOST = config("EMAIL_HOST")
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="")
