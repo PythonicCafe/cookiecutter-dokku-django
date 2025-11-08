@@ -222,10 +222,10 @@ SENTRY_DSN = config("SENTRY_DSN", default=None)
 if SENTRY_DSN:
     sentry_sdk.init(
         SENTRY_DSN,
+        environment=ENV_TYPE,
         integrations=[DjangoIntegration()],
         send_default_pii=True,
     )
-    # TODO: add environment
 {%- endif %}
 
 {%- if cookiecutter.enable_mailhog == "y" %}
