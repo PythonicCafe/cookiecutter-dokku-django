@@ -1,6 +1,7 @@
 import json
 import os
 import shutil
+from pathlib import Path
 
 
 def post_db_config():
@@ -62,6 +63,9 @@ def post_dokku_config():
         json.dump(app_json, fobj, indent=2)
 
 
+def print_finish():
+    print(f"Project generated on {Path.cwd()}")
+
 def main():
     post_db_config()
     post_postgres_fts_config()
@@ -70,6 +74,7 @@ def main():
     post_mailhog_config()
     post_minio_config()
     post_dokku_config()
+    print_finish()
 
 
 if __name__ == "__main__":
