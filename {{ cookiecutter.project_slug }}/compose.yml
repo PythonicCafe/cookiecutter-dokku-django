@@ -54,7 +54,7 @@ services:
         required: true
       - path: "docker/env/db.local"
         required: false
-    shm_size: "${DB_SHM_SIZE:{{ cookiecutter.db_shm_size }}}"
+    shm_size: "${DB_SHM_SIZE:-{{ cookiecutter.db_shm_size }}}"
 {%- if cookiecutter.database_software == "postgres" %}
     image: "{{ cookiecutter.db_image }}:{{ cookiecutter.db_version }}"
     command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
