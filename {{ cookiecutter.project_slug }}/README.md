@@ -1,4 +1,4 @@
-# {{ cookiecutter.project_slug }}
+# {{ cookiecutter.project_name }}
 
 This project and all required services (as the database) run inside Docker containers. You'll need Docker, Docker
 compose and make to run locally.

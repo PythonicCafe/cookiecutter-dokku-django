@@ -1,4 +1,4 @@
-# {{ cookiecutter.project_slug }}
+# {{ cookiecutter.project_name }}
 
 O projeto e todos os serviços necessários (como bancos de dados) rodam completamente dentro de _containers_ Docker.
 Para rodá-lo localmente, você precisará de docker, docker compose e make.
