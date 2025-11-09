@@ -49,7 +49,7 @@ def post_dokku_config():
 
     if "cron" not in app_json:
         app_json["cron"] = []
-    if "{{ cookiecutter.enable_mailhog }}".lower() != "y":
+    if "{{ cookiecutter.enable_mailhog }}".lower() == "y":
         app_json["cron"].extend(
             [
                 {"schedule": "2-59/5  *        * * *", "command": "python manage.py retry_deferred"},
