@@ -45,6 +45,13 @@ services:
   mail-worker:
     <<: *web-common
     command: /app/bin/mail-worker.sh
+    depends_on:
+      db:
+        condition: service_healthy
+      messaging:
+        condition: service_started
+      web:
+        condition: service_healthy
 
 {%- endif %}
 
