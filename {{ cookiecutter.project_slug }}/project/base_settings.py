@@ -57,7 +57,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     # Third-party apps
 {%- if cookiecutter.enable_celery == "y" %}
     "django_celery_results",
@@ -70,8 +69,7 @@ INSTALLED_APPS = [
 {%- endif %}
 {%- if cookiecutter.enable_minio == "y" %}
     "storages",
-{%- endif  %}
-    # Project apps
+{%- endif %}
 ]
 
 MIDDLEWARE = [
@@ -137,7 +135,7 @@ CELERY_RESULT_EXTENDED = True
 CELERY_TASK_TRACK_STARTED = True
 CELERY_WORKER_CONCURRENCY = 2  # Number of children per worker
 CELERY_WORKER_DISABLE_PREFETCH = True  # Consume tasks only when there's a child available to execute it
-CELERY_WORKER_MAX_MEMORY_PER_CHILD = 256 * 1024 # 256MB (in KiB)
+CELERY_WORKER_MAX_MEMORY_PER_CHILD = 256 * 1024  # 256MB (in KiB)
 CELERY_WORKER_MAX_TASKS_PER_CHILD = 20  # Max tasks per child worker before restart (avoid memory leaks)
 CELERY_WORKER_POOL = "prefork"  # Use processes as task executors
 
