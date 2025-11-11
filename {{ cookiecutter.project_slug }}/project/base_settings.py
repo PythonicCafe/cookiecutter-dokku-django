@@ -70,6 +70,8 @@ INSTALLED_APPS = [
 {%- if cookiecutter.enable_minio == "y" %}
     "storages",
 {%- endif %}
+    # Project apps
+    "core",
 ]
 
 MIDDLEWARE = [
