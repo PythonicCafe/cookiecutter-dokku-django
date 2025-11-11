@@ -40,6 +40,7 @@ def post_mailhog_config():
 def post_minio_config():
     if "{{ cookiecutter.enable_minio }}".lower() != "y":
         os.remove("docker/env/storage")
+        os.remove("core/management/commands/create_buckets.py")
         shutil.rmtree("docker/data/storage")
 
 

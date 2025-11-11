@@ -192,16 +192,17 @@ STORAGES = {
 }
 DATA_DIR = config("DATA_DIR", cast=Path)
 {%- if cookiecutter.enable_minio == "y" %}
-AWS_S3_ENDPOINT_URL = config("AWS_S3_ENDPOINT_URL")  # This is the server to connect to send files
+AWS_AUTO_CREATE_BUCKET = True
+AWS_QUERYSTRING_AUTH = False
 AWS_S3_ACCESS_KEY_ID = config("AWS_S3_ACCESS_KEY_ID")
-AWS_S3_SECRET_ACCESS_KEY = config("AWS_S3_SECRET_ACCESS_KEY")
-AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
 AWS_S3_CUSTOM_DOMAIN = config(
     "AWS_S3_CUSTOM_DOMAIN", default=None
 )  # This is the base URL used when creating links to files
+AWS_S3_ENDPOINT_URL = config("AWS_S3_ENDPOINT_URL")  # This is the server to connect to send files
+AWS_S3_REGION_NAME = config("AWS_S3_REGION_NAME", default="us-east-1")
+AWS_S3_SECRET_ACCESS_KEY = config("AWS_S3_SECRET_ACCESS_KEY")
 AWS_S3_URL_PROTOCOL = config("AWS_S3_URL_PROTOCOL", default="https:")
-AWS_AUTO_CREATE_BUCKET = True
-AWS_QUERYSTRING_AUTH = False
+AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
 {%- endif %}
 
 # Default primary key field type
