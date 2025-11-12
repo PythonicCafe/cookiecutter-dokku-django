@@ -41,6 +41,7 @@ def post_minio_config():
     if "{{ cookiecutter.enable_minio }}".lower() != "y":
         os.remove("docker/env/storage")
         os.remove("core/management/commands/create_buckets.py")
+        os.remove("project/storage.py")
         shutil.rmtree("docker/data/storage")
 
 
