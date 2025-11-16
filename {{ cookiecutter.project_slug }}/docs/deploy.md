@@ -119,7 +119,6 @@ export APP_DOMAINS="myapp.example.com,another.example.com"  # Domínio por onde 
 export SENTRY_DSN="..."  # URL de acesso ao Sentry, para reporte de erros
 {%- endif %}
 export ADMINS="App Admin|admin@myapp.example.com"
-export DEFAULT_FROM_EMAIL="noreply@myapp.example.com"
 {%- if cookiecutter.enable_mailhog == "y" %}
 export DEFAULT_FROM_EMAIL="noreply@myapp.example.com"
 export EMAIL_HOST="..."
