@@ -121,7 +121,6 @@ export SENTRY_DSN="..."  # URL de acesso ao Sentry, para reporte de erros
 export ADMINS="App Admin|admin@myapp.example.com"
 export DEFAULT_FROM_EMAIL="noreply@myapp.example.com"
 {%- if cookiecutter.enable_mailhog == "y" %}
-export EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
 export DEFAULT_FROM_EMAIL="noreply@myapp.example.com"
 export EMAIL_HOST="..."
 export EMAIL_HOST_PASSWORD="..."
@@ -194,7 +193,6 @@ dokku config:set --no-restart $APP_NAME DATA_DIR="$DATA_DIR"
 dokku config:set --no-restart $APP_NAME DEBUG="$DEBUG"
 {%- if cookiecutter.enable_mailhog == "y" %}
 dokku config:set --no-restart $APP_NAME DEFAULT_FROM_EMAIL="$DEFAULT_FROM_EMAIL"
-dokku config:set --no-restart $APP_NAME EMAIL_BACKEND="$EMAIL_BACKEND"
 dokku config:set --no-restart $APP_NAME EMAIL_HOST="$EMAIL_HOST"
 dokku config:set --no-restart $APP_NAME EMAIL_HOST_PASSWORD="$EMAIL_HOST_PASSWORD"
 dokku config:set --no-restart $APP_NAME EMAIL_HOST_USER="$EMAIL_HOST_USER"
