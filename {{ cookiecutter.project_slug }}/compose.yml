@@ -50,8 +50,6 @@ services:
         condition: service_healthy
       messaging:
         condition: service_started
-      web:
-        condition: service_healthy
 
 {%- endif %}
 
