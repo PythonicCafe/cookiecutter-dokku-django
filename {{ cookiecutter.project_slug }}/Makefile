@@ -83,4 +83,4 @@ test-ci:
 	$(COMPOSE) up -d $(CI_SERVICES)
 	$(COMPOSE) run --rm web bash -c '{% if cookiecutter.enable_minio == 'y' %}python manage.py create_buckets && {% endif %}coverage run -m pytest $(TEST_ARGS) && coverage report'
 
-.PHONY: bash bash-root build build-ci build-no-cache clean dbshell help kill lint lint-check link-check-ci logs migrate migrations restart shell start stop tags test test-ci
+.PHONY: bash bash-root build build-ci build-no-cache clean dbshell help kill lint lint-check lint-check-ci logs migrate migrations restart shell start stop tags test test-ci
