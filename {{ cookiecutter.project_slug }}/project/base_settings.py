@@ -134,6 +134,7 @@ CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 CELERY_BROKER_URL = REDIS_URL
 CELERY_RESULT_BACKEND = "django-db"
 CELERY_RESULT_EXTENDED = True
+CELERY_TASK_LOCK_TIMEOUT = 30  # Will clear a lock after 30 seconds
 CELERY_TASK_TRACK_STARTED = True
 CELERY_WORKER_CONCURRENCY = 2  # Number of children per worker
 CELERY_WORKER_DISABLE_PREFETCH = True  # Consume tasks only when there's a child available to execute it
