@@ -136,6 +136,7 @@ export HF_HUB_CACHE="/data/cache/hf-models/"
 {%- if cookiecutter.use_openai_client == "y" %}
 export TIKTOKEN_CACHE_DIR="/data/cache/tiktoken"
 {%- endif %}
+export USE_ASGI=false
 
 export LETSENCRYPT_EMAIL="$(echo $ADMINS | sed 's/^[^|]*|\([^,]*\).*$/\1/')"
 export ALLOWED_HOSTS="$APP_DOMAINS"
@@ -211,6 +212,7 @@ dokku config:set --no-restart $APP_NAME HF_HUB_CACHE="$HF_HUB_CACHE"
 {%- if cookiecutter.use_openai_client == "y" %}
 dokku config:set --no-restart $APP_NAME TIKTOKEN_CACHE_DIR="$TIKTOKEN_CACHE_DIR"
 {%- endif %}
+dokku config:set --no-restart $APP_NAME USE_ASGI="$USE_ASGI"
 dokku checks:disable $APP_NAME
 ```
 {%- if cookiecutter.database_software == "postgres" %}

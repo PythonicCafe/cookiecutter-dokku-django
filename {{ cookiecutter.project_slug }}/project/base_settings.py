@@ -110,14 +110,20 @@ TEMPLATES = [
     },
 ]
 
+ASGI_APPLICATION = "project.asgi.application"
 WSGI_APPLICATION = "project.wsgi.application"
+USE_ASGI = config("USE_ASGI", cast=bool)
 
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASE_CONN_MAX_AGE = config("DATABASE_CONN_MAX_AGE", default=3600, cast=int)  # seconds
-# TODO: set to zero if USE_ASGI
+if USE_ASGI:
+    # Application running via ASGI should have this value set to 0
+    # <https://docs.djangoproject.com/en/6.0/ref/databases/#persistent-connections>
+    DATABASE_CONN_MAX_AGE = 0
+else:
+    DATABASE_CONN_MAX_AGE = config("DATABASE_CONN_MAX_AGE", default=0, cast=int)  # seconds
 DATABASES = {
     "default": dj_database_url.config(conn_max_age=DATABASE_CONN_MAX_AGE),
 }
