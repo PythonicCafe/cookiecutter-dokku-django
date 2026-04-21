@@ -117,6 +117,7 @@ WSGI_APPLICATION = "project.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASE_CONN_MAX_AGE = config("DATABASE_CONN_MAX_AGE", default=3600, cast=int)  # seconds
+# TODO: set to zero if USE_ASGI
 DATABASES = {
     "default": dj_database_url.config(conn_max_age=DATABASE_CONN_MAX_AGE),
 }
