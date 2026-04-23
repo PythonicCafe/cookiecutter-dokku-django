@@ -73,7 +73,7 @@ dokku plugin:install https://github.com/dokku/dokku-postgres.git
 {%- elif cookiecutter.database_software == "mariadb" %}
 dokku plugin:install https://github.com/dokku/dokku-mariadb.git
 {%- endif %}
-{% if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}
+{% if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" or cookiecutter.enable_channels == "y" %}
 dokku plugin:install https://github.com/dokku/dokku-redis.git
 {%- endif %}
 
@@ -136,7 +136,11 @@ export HF_HUB_CACHE="/data/cache/hf-models/"
 {%- if cookiecutter.use_openai_client == "y" %}
 export TIKTOKEN_CACHE_DIR="/data/cache/tiktoken"
 {%- endif %}
+{%- if cookiecutter.enable_channels == "y" %}
+export USE_ASGI=true
+{%- else %}
 export USE_ASGI=false
+{%- endif %}
 
 export LETSENCRYPT_EMAIL="$(echo $ADMINS | sed 's/^[^|]*|\([^,]*\).*$/\1/')"
 export ALLOWED_HOSTS="$APP_DOMAINS"
@@ -148,7 +152,7 @@ export DB_NAME="pg_${APP_NAME}"
 {%- elif cookiecutter.database_software == "mariadb" %}
 export DB_NAME="mdb_${APP_NAME}"
 {%- endif %}
-{% if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}
+{% if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" or cookiecutter.enable_channels == "y" %}
 export REDIS_NAME="redis_${APP_NAME}"
 {% endif %}
 export SECRET_KEY=$(openssl rand -base64 64 | tr -d ' \n')
@@ -181,7 +185,7 @@ dokku postgres:link $DB_NAME $APP_NAME
 dokku mariadb:create $DB_NAME -i {{ cookiecutter.db_image }} -I {{ cookiecutter.db_version }} --shm-size {{ cookiecutter.db_shm_size }}
 dokku mariadb:link $DB_NAME $APP_NAME
 {%- endif %}
-{% if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}
+{% if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" or cookiecutter.enable_channels == "y" %}
 dokku redis:create $REDIS_NAME -i {{ cookiecutter.redis_image }} -I {{ cookiecutter.redis_version }}
 dokku redis:link $REDIS_NAME $APP_NAME
 {% endif %}

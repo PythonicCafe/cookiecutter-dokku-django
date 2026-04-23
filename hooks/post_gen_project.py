@@ -31,6 +31,17 @@ def post_redis_config():
         shutil.rmtree("docker/data/messaging")
 
 
+def post_channels_config():
+    if "{{ cookiecutter.enable_channels }}".lower() != "y":
+        os.remove("app_server.py")
+        os.remove("core/consumers.py")
+        os.remove("core/routing.py")
+        shutil.rmtree("core/tests")
+    else:
+        # When Channels is enabled, tests live in `core/tests/` package (collides with `core/tests.py`)
+        os.remove("core/tests.py")
+
+
 def post_mailhog_config():
     if "{{ cookiecutter.enable_mailhog }}".lower() != "y":
         os.remove("docker/env/mail")
@@ -73,6 +84,7 @@ def main():
     post_postgres_fts_config()
     post_celery_config()
     post_redis_config()
+    post_channels_config()
     post_mailhog_config()
     post_minio_config()
     post_dokku_config()

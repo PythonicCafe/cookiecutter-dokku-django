@@ -61,6 +61,9 @@ INSTALLED_APPS = [
 {%- if cookiecutter.enable_celery == "y" %}
     "django_celery_results",
 {%- endif  %}
+{%- if cookiecutter.enable_channels == "y" %}
+    "channels",
+{%- endif %}
 {%- if cookiecutter.enable_django_extensions == "y" %}
     "django_extensions",
 {%- endif %}
@@ -129,7 +132,7 @@ DATABASES = {
 }
 
 
-{%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}
+{%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" or cookiecutter.enable_channels == "y" %}
 # Redis
 REDIS_URL = config("REDIS_URL")
 
@@ -148,6 +151,19 @@ CELERY_WORKER_DISABLE_PREFETCH = True  # Consume tasks only when there's a child
 CELERY_WORKER_MAX_MEMORY_PER_CHILD = 256 * 1024  # 256MB (in KiB)
 CELERY_WORKER_MAX_TASKS_PER_CHILD = 20  # Max tasks per child worker before restart (avoid memory leaks)
 CELERY_WORKER_POOL = "prefork"  # Use processes as task executors
+
+{%- endif %}
+{%- if cookiecutter.enable_channels == "y" %}
+# Channels
+# Check details in: <https://channels.readthedocs.io/en/stable/topics/channel_layers.html>
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [REDIS_URL],
+        },
+    },
+}
 
 {%- endif %}
 

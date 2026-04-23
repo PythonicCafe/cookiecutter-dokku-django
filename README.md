@@ -20,6 +20,8 @@ Highlights:
 - Offers optional service integrations:
   - [MariaDB](https://mariadb.org/) as an alternative to [PostgreSQL](https://postgres.org/).
   - [Celery](https://docs.celeryq.dev/en/stable/) for background tasks.
+  - [Channels](https://channels.readthedocs.io/) + [channels_redis](https://github.com/django/channels_redis/) for
+    WebSocket support via ASGI (gunicorn + `uvicorn-worker`).
   - [Redis](https://redis.io/) for task queue and/or cache (considering migrating to [Valkey](https://valkey.io/)
     because of [licensing
 issues](https://arstechnica.com/information-technology/2024/04/redis-license-change-and-forking-are-a-mess-that-everybody-can-feel-bad-about/)).

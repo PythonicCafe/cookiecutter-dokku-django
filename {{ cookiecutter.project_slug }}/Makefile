@@ -6,7 +6,7 @@ else
 endif
 COMPOSE = docker compose
 COMPOSE_EXEC = $(COMPOSE) exec $(DOCKER_EXEC_FLAGS)
-CI_SERVICES = db {% if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" %}messaging{% endif %} {% if cookiecutter.enable_minio == "y" %}storage{% endif %}
+CI_SERVICES = db {% if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" or cookiecutter.enable_channels == "y" %}messaging{% endif %} {% if cookiecutter.enable_minio == "y" %}storage{% endif %}
 
 bash: 					# Run bash inside `web` container
 	$(COMPOSE_EXEC) web bash

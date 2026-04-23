@@ -10,6 +10,7 @@
   "enable_celery": ["y", "n"],
   "celery_workers_production": 2,
   "celery_workers_local": 2,
+  "enable_channels": ["y", "n"],
   "enable_mailhog": ["y", "n"],
   "enable_minio": ["y", "n"],
   "enable_redis": ["y", "n"],

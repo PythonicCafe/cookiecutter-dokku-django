@@ -21,7 +21,11 @@ HOST_PORT="0.0.0.0:$PORT"
 OPTS="--bind=$HOST_PORT --chdir=/app --log-file - --access-logfile - --workers=$GUNICORN_WORKERS --timeout=$WEB_TIMEOUT"
 if [[ "$(echo $USE_ASGI | tr a-z A-Z)" = "TRUE" ]]; then
   APP_MODULE="project.asgi:application"
+{%- if cookiecutter.enable_channels == "y" %}
+  OPTS="$OPTS --worker-class app_server.HeartbeatUvicornWorker"
+{%- else %}
   OPTS="$OPTS --worker-class uvicorn.workers.UvicornWorker"
+{%- endif %}
 else
   APP_MODULE="project.wsgi:application"
 fi
