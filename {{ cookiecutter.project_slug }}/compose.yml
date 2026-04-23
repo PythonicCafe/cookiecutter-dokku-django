@@ -18,7 +18,7 @@ x-web-common: &web-common
   depends_on:
     db:
       condition: service_healthy
-{%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" or cookiecutter.enable_channels == "y" %}
+{%- if cookiecutter.enable_redis == "y" %}
     messaging:
       condition: service_started
 {%- endif %}
@@ -97,7 +97,7 @@ services:
 
 {%- endif %}
 
-{%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" or cookiecutter.enable_channels == "y" %}
+{%- if cookiecutter.enable_redis == "y" %}
 
   messaging:
     env_file:

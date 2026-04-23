@@ -73,7 +73,7 @@ dokku plugin:install https://github.com/dokku/dokku-postgres.git
 {%- elif cookiecutter.database_software == "mariadb" %}
 dokku plugin:install https://github.com/dokku/dokku-mariadb.git
 {%- endif %}
-{% if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" or cookiecutter.enable_channels == "y" %}
+{% if cookiecutter.enable_redis == "y" %}
 dokku plugin:install https://github.com/dokku/dokku-redis.git
 {%- endif %}
 
@@ -152,7 +152,7 @@ export DB_NAME="pg_${APP_NAME}"
 {%- elif cookiecutter.database_software == "mariadb" %}
 export DB_NAME="mdb_${APP_NAME}"
 {%- endif %}
-{% if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" or cookiecutter.enable_channels == "y" %}
+{% if cookiecutter.enable_redis == "y" %}
 export REDIS_NAME="redis_${APP_NAME}"
 {% endif %}
 export SECRET_KEY=$(openssl rand -base64 64 | tr -d ' \n')
@@ -185,7 +185,7 @@ dokku postgres:link $DB_NAME $APP_NAME
 dokku mariadb:create $DB_NAME -i {{ cookiecutter.db_image }} -I {{ cookiecutter.db_version }} --shm-size {{ cookiecutter.db_shm_size }}
 dokku mariadb:link $DB_NAME $APP_NAME
 {%- endif %}
-{% if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" or cookiecutter.enable_channels == "y" %}
+{% if cookiecutter.enable_redis == "y" %}
 dokku redis:create $REDIS_NAME -i {{ cookiecutter.redis_image }} -I {{ cookiecutter.redis_version }}
 dokku redis:link $REDIS_NAME $APP_NAME
 {% endif %}

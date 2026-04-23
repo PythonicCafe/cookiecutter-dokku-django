@@ -132,7 +132,7 @@ DATABASES = {
 }
 
 
-{%- if cookiecutter.enable_celery == "y" or cookiecutter.enable_redis == "y" or cookiecutter.enable_channels == "y" %}
+{%- if cookiecutter.enable_redis == "y" %}
 # Redis
 REDIS_URL = config("REDIS_URL")
 
