@@ -21,7 +21,7 @@
   "minio_version": "latest",
   "database_software": ["postgres", "mariadb"],
   "db_image": "{% if cookiecutter.database_software == 'postgres' %}postgres{% elif cookiecutter.database_software == 'mariadb' %}mariadb{% endif %}",
-  "db_version": "{% if cookiecutter.database_software == 'postgres' %}17.6-trixie{% elif cookiecutter.database_software == 'mariadb' %}11{% endif %}",
+  "db_version": "{% if cookiecutter.database_software == 'postgres' %}18.6-trixie{% elif cookiecutter.database_software == 'mariadb' %}11{% endif %}",
   "postgres_fts_utils": ["y", "n"],
   "db_shm_size": "2g",
   "python_image": "python",
