@@ -49,3 +49,5 @@ RUN --mount=type=cache,target=/var/cache/pip if [ "$(echo "$ENV_TYPE" | tr '[:up
 # Copy all needed files and set permissions
 COPY --chown=django:django . /app/
 USER django
+
+CMD ["/app/bin/web.sh"]
