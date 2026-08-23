@@ -25,7 +25,7 @@
   "postgres_fts_utils": ["y", "n"],
   "db_shm_size": "2g",
   "python_image": "python",
-  "python_version": "3.13-slim-trixie",
+  "python_version": "3.14-slim-trixie",
   "redis_image": "redis",
   "redis_version": "6.2-alpine",
   "author": "Your Name",
