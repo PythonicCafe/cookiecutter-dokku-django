@@ -15,6 +15,7 @@
   "enable_minio": ["y", "n"],
   "enable_redis": ["y", "n"],
   "enable_sentry": ["y", "n"],
+  "enable_http_client": ["y", "n"],
   "mailhog_image": "mailhog/mailhog",
   "mailhog_version": "latest",
   "minio_image": "minio/minio",

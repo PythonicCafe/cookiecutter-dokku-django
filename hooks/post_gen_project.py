@@ -25,6 +25,12 @@ def post_celery_config():
         os.remove("bin/worker.sh")
 
 
+def post_http_client_config():
+    if "{{ cookiecutter.enable_http_client }}".lower() != "y":
+        os.remove("project/utils/http_client.py")
+        os.remove("project/utils/tests/test_http_client.py")
+
+
 def post_redis_config():
     if "{{ cookiecutter.enable_redis }}".lower() != "y":
         os.remove("docker/env/messaging")
@@ -79,10 +85,12 @@ def post_dokku_config():
 def print_finish():
     print(f"Project generated on {Path.cwd()}")
 
+
 def main():
     post_db_config()
     post_postgres_fts_config()
     post_celery_config()
+    post_http_client_config()
     post_redis_config()
     post_channels_config()
     post_mailhog_config()
