@@ -1,18 +1,26 @@
 TAGS_FILE = .tags
+COMPOSE = docker compose
+# When running inside the `web` container, `ENV_TYPE` is `development` and targets run commands directly
+# instead of through `docker compose exec`
+ifeq ($(ENV_TYPE),development)
+WEB_RUN =
+WEB_ROOT_RUN =
+else
 ifeq ($(CI),true)
     DOCKER_EXEC_FLAGS = -T
 else
     DOCKER_EXEC_FLAGS = -it
 endif
-COMPOSE = docker compose
-COMPOSE_EXEC = $(COMPOSE) exec $(DOCKER_EXEC_FLAGS)
+WEB_RUN = $(COMPOSE) exec $(DOCKER_EXEC_FLAGS) web
+WEB_ROOT_RUN = $(COMPOSE) exec $(DOCKER_EXEC_FLAGS) -u root web
+endif
 CI_SERVICES = db {% if cookiecutter.enable_redis == "y" %}messaging{% endif %} {% if cookiecutter.enable_minio == "y" %}storage{% endif %}
 
 bash: 					# Run bash inside `web` container
-	$(COMPOSE_EXEC) web bash
+	$(WEB_RUN) bash
 
 bash-root: 				# Run bash as root inside `web` container
-	$(COMPOSE_EXEC) -u root web bash
+	$(WEB_ROOT_RUN) bash
 
 build:					# Build containers and pull images
 	$(COMPOSE) pull
@@ -43,7 +51,7 @@ cloc:					# Count lines of code
 		--not-match-f='(\.min\.(js|css)|package-lock\.json)$$'
 
 dbshell: 				# Connect to database shell using `web` container
-	$(COMPOSE_EXEC) web python manage.py dbshell
+	$(WEB_RUN) python manage.py dbshell
 
 help:					# List all make commands
 	@awk -F ':.*#' '/^[a-zA-Z_-]+:.*?#/ { printf "\033[36m%-15s\033[0m %s\n", $$1, $$2 }' $(MAKEFILE_LIST) | sort
@@ -53,10 +61,10 @@ kill:					# Force stop (kill) and remove containers
 	$(COMPOSE) rm --force
 
 lint:					# Run linter script
-	$(COMPOSE_EXEC) web /app/lint.sh
+	$(WEB_RUN) /app/lint.sh
 
 lint-check:				# Run the linter without changing files
-	$(COMPOSE_EXEC) web /app/lint.sh --check
+	$(WEB_RUN) /app/lint.sh --check
 
 lint-check-ci:
 	$(COMPOSE) run --rm web bash -c '/app/lint.sh --check'
@@ -65,13 +73,13 @@ logs:					# Show all containers' logs (tail)
 	$(COMPOSE) logs -tf
 
 migrate:				# Execute Django migrations inside `web` container
-	$(COMPOSE_EXEC) web python manage.py migrate
+	$(WEB_RUN) python manage.py migrate
 
 migrations:				# Execute `makemigrations` inside `web` container
-	$(COMPOSE_EXEC) web python manage.py makemigrations
+	$(WEB_RUN) python manage.py makemigrations
 
 shell:					# Execute Django shell inside `web` container
-	$(COMPOSE_EXEC) web python manage.py shell
+	$(WEB_RUN) python manage.py shell
 
 restart: stop start		# Stop all containers and start all containers in background
 
@@ -85,7 +93,7 @@ tags:					# Generate tags file for the entire project (requires universal-ctags)
 	@git ls-files | ctags -L - --tag-relative=yes --quiet --append -f "$(TAGS_FILE)"
 
 test:					# Execute `pytest` and coverage report inside `web` container
-	$(COMPOSE_EXEC) web bash -c 'coverage run -m pytest $(TEST_ARGS) && coverage report'
+	$(WEB_RUN) bash -c 'coverage run -m pytest $(TEST_ARGS) && coverage report'
 
 test-ci:
 	$(COMPOSE) up -d $(CI_SERVICES)
