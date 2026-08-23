@@ -1,5 +1,12 @@
 # {{ cookiecutter.project_name }}
 
+## Introdução
+
+TODO: adicione um parágrafo descrevendo seu projeto aqui.
+
+
+## Execução local
+
 O projeto e todos os serviços necessários (como bancos de dados) rodam completamente dentro de _containers_ Docker.
 Para rodá-lo localmente, você precisará de docker, docker compose e make.
 
@@ -93,3 +100,10 @@ Os serviços configurados no Docker compose são:
 - `storage`: executa o MinIO (equivalente ao AWS S3), acessível em [localhost:9000](http://localhost:9000/) (API) e
   [localhost:9001](http://localhost:9001/) (console).
 {%- endif %}
+
+
+## Documentação
+
+- [`docs/deploy.md`](docs/deploy.md): instruções passo-a-passo para fazer o _deployment_ dessa aplicação usando Dokku.
+- [`docs/local.md`](docs/local.md): instruções para tarefas locais frequentes, como atualizar a versão do banco de
+  dados, alterar a quantidade de _workers_ etc.

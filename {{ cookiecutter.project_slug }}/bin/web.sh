@@ -24,6 +24,8 @@ if [[ "$(echo $USE_ASGI | tr a-z A-Z)" = "TRUE" ]]; then
 {%- if cookiecutter.enable_channels == "y" %}
   OPTS="$OPTS --worker-class app_server.HeartbeatUvicornWorker"
 {%- else %}
+  # TODO: you may want to change to `uvicorn_worker.UvicornWorker`, which is recommended by gunicorn (requires extra
+  # package to be installed)
   OPTS="$OPTS --worker-class uvicorn.workers.UvicornWorker"
 {%- endif %}
 else

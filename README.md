@@ -49,6 +49,7 @@ Then, read the created `<project_slug>/README.md` for local development instruct
 
 ## To do
 
+- [ ] If Redis is enabled, configure Django cache to use it
 - [ ] Fix Dokku healthchecks (do not disable) while having `*` not in `ALLOWED_HOSTS` (use `httpHeaders` from
   [docker-container-healthchecker](https://github.com/dokku/docker-container-healthchecker))
 - [ ] Add support for using [pydokku](https://github.com/PythonicCafe/pydokku/)

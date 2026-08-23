@@ -1,5 +1,12 @@
 # {{ cookiecutter.project_name }}
 
+## Introduction
+
+TODO: add a paragraph about your project here.
+
+
+## Running locally
+
 This project and all required services (as the database) run inside Docker containers. You'll need Docker, Docker
 compose and make to run locally.
 
@@ -93,3 +100,10 @@ The services configured on Docker compose are:
 - `storage`: MinIO container, acessible through [localhost:9000](http://localhost:9000/) (API) and
   [localhost:9001](http://localhost:9001/) (console)
 {%- endif %}
+
+
+## Documentation
+
+- [`docs/deploy.md`](docs/deploy.md): step-by-step instructions to deploy this app using Dokku.
+- [`docs/local.md`](docs/local.md): instructions on running local development tasks, such as upgrading database
+  version, changing the number of workers etc.
