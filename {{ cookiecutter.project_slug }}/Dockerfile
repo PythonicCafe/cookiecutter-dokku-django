@@ -36,8 +36,12 @@ RUN --mount=type=cache,target=/var/cache/pip pip install --cache-dir /var/cache/
 COPY --chown=django:django requirements.txt requirements-development.txt /app/
 RUN --mount=type=cache,target=/var/cache/pip pip install --cache-dir /var/cache/pip -Ur /app/requirements.txt
 ARG ENV_TYPE=production
-RUN --mount=type=cache,target=/var/cache/pip if [ "$(echo $ENV_TYPE | tr A-Z a-z)" = "development" ]; then \
-    pip install --cache-dir /var/cache/pip -Ur /app/requirements-development.txt; \
+RUN --mount=type=cache,target=/var/cache/pip if [ "$(echo "$ENV_TYPE" | tr '[:upper:]' '[:lower:]')" != "production" ]; then \
+    apt update \
+    && apt install --no-install-recommends -y git make ripgrep \
+    && pip install --cache-dir /var/cache/pip -Ur /app/requirements-development.txt \
+    && apt clean \
+    && rm -rf /var/lib/apt/lists/*; \
   else \
     rm /app/requirements-development.txt; \
   fi
